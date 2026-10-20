@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Experiment — Empirical verification</title>
+<link rel="stylesheet" href="style.css">
+<script>
+window.MathJax = {
+  tex: {
+    inlineMath: [['\\(', '\\)'], ['$', '$']],
+    displayMath: [['\\[', '\\]'], ['$$', '$$']],
+    processEscapes: true
+  }
+};
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-chtml.js" async></script>
+</head><body><div class="layout"><aside class="sidebar"><div class="brand">Algorithm Analysis</div><p class="subbrand">Experiment</p><nav class="nav"><a href="index.html">← Home</a><a href="module1.html">Module 1</a><a href="module2.html">Module 2</a><a href="experiment.html" class="active">Experiment</a><a href="#experiment">Overview</a><a href="#code">Python code</a></nav></aside><main class="main">
+
+<section id="experiment" class="card"><h2>Empirical verification with Python</h2><p>This experiment counts comparisons made by a linear maximum-finding algorithm. The theoretical count is \(n-1\). Run the code in Python or Google Colab and compare measured counts with the formula.</p><h3 id="code">Python code</h3><pre>def max_with_counter(values):
+    if not values:
+        raise ValueError("Input must not be empty")
+    current_max = values[0]
+    comparisons = 0
+    for value in values[1:]:
+        comparisons += 1
+        if value &gt; current_max:
+            current_max = value
+    return current_max, comparisons
+
+for n in [10, 100, 1000, 5000]:
+    data = list(range(n))
+    result, measured = max_with_counter(data)
+    theoretical = n - 1
+    print(f"n={n:4d}, max={result:4d}, measured={measured:4d}, formula={theoretical:4d}")</pre><p><b>Expected interpretation:</b> measured comparisons equal \(n-1\) for each non-empty input. This verifies the operation-count formula for this implementation. It does not measure wall-clock time, which is affected by hardware, interpreter overhead, and other factors.</p><button class="secondary" onclick="downloadExperiment()">Download Python file</button></section>
+
+<section class="card"><h2>Second experiment: selection sort</h2><pre>def selection_sort_count(a):
+    n, count = len(a), 0
+    for i in range(n - 1):
+        m = i
+        for j in range(i + 1, n):
+            count += 1
+            if a[j] &lt; a[m]: m = j
+        a[i], a[m] = a[m], a[i]
+    return count
+
+for n in (10, 100, 1000):
+    assert selection_sort_count(list(range(n, 0, -1))) == n * (n - 1) // 2
+print("formula confirmed")</pre><p><b>Expected:</b> the comparison count equals \(n(n-1)/2\) exactly for every \(n\) — the formula matches the code.</p><button class="secondary" onclick="downloadSelection()">Download Python file</button></section>
+
+<div class="footer">Empirical verification. <a href="index.html">Back to Home →</a></div>
+</main></div>
+<script>
+function downloadExperiment(){const code=`def max_with_counter(values):\n    if not values:\n        raise ValueError("Input must not be empty")\n    current_max = values[0]\n    comparisons = 0\n    for value in values[1:]:\n        comparisons += 1\n        if value > current_max:\n            current_max = value\n    return current_max, comparisons\n\nfor n in [10, 100, 1000, 5000]:\n    data = list(range(n))\n    result, measured = max_with_counter(data)\n    theoretical = n - 1\n    print(f"n={n:4d}, max={result:4d}, measured={measured:4d}, formula={theoretical:4d}")\n`;const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([code],{type:'text/x-python'}));a.download='operation_count_experiment.py';a.click();URL.revokeObjectURL(a.href)}
+function downloadSelection(){const code=`def selection_sort_count(a):\n    n, count = len(a), 0\n    for i in range(n - 1):\n        m = i\n        for j in range(i + 1, n):\n            count += 1\n            if a[j] < a[m]: m = j\n        a[i], a[m] = a[m], a[i]\n    return count\n\nfor n in (10, 100, 1000):\n    assert selection_sort_count(list(range(n, 0, -1))) == n * (n - 1) // 2\nprint("formula confirmed")\n`;const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([code],{type:'text/x-python'}));a.download='selection_sort_experiment.py';a.click();URL.revokeObjectURL(a.href)}
+</script></body></html>
