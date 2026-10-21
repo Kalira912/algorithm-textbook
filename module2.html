@@ -11,121 +11,75 @@ window.MathJax = {
 };
 </script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-chtml.js" async></script>
-</head><body><div class="layout"><aside class="sidebar"><div class="brand">Algorithm Analysis</div><p class="subbrand">Module 2 · Recursive</p><nav class="nav"><a href="index.html">← Home</a><a href="module1.html">Module 1</a><a href="module2.html" class="active">Module 2</a><a href="experiment.html">Experiment</a><a href="#module2">Overview</a><a href="#m2examples">Worked examples</a><a href="#m2tasks">Tasks</a><a href="#sum2">Summary & cheat sheet</a></nav></aside><main class="main">
+<style>
+.cg{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:8px}
+.cg pre{margin:2px 0}
+.own{font-size:12px;color:var(--muted)}
+.code{margin:12px 0}
+</style>
+</head><body><div class="layout"><aside class="sidebar"><div class="brand">Algorithm Analysis</div><p class="subbrand">Module 2 · Recursive</p><nav class="nav"><a href="index.html">← Home</a><a href="module1.html">Module 1</a><a href="module2.html" class="active">Module 2</a><a href="experiment.html">Experiment</a><a href="#module2">Overview</a><a href="#m2ex">Worked examples</a><a href="#fib">Naive Fibonacci</a><a href="#m2tasks">Tasks</a><a href="#sum2">Summary & cheat sheet</a></nav></aside><main class="main">
 
 <section id="module2" class="card"><span class="tag">MODULE 2</span><h2>Mathematical Analysis of Recursive Algorithms</h2>
-<p><b>Learning outcomes:</b> form a recurrence with a base case; solve simple recurrences by expansion; verify by induction; understand recursion trees and repeated subproblems.</p>
+<p><b>Learning outcomes:</b> set up a recurrence with an initial condition; solve it by backward substitution and verify it; draw a recursion tree; explain why naive Fibonacci is slow; compare recursion with iteration.</p>
 
 <h3>The five-step plan</h3>
-<ol>
-<li>Identify input size \(n\).</li>
-<li>Identify the basic operation.</li>
-<li><b>Check whether the count depends on input cases</b> — best, worst or average.</li>
-<li>Write the recurrence for the operation count and state the initial condition.</li>
-<li>Solve the recurrence and state the order of growth.</li>
-</ol>
-<p>A <b>recurrence relation</b> defines a function using smaller input sizes. The <b>initial condition</b> gives the value at the base case, for example \(T(1)=1\). A recurrence without an initial condition has many solutions; the initial condition picks the right one.</p>
+<p>The five steps are the same as in Module 1 (size, basic operation, cases, count, solve), but step 4 gives a <b>recurrence relation</b>: an equation for the count \(M(n)\) through the count for smaller arguments, together with an <b>initial condition</b> from the stopping case.</p>
 
 <h3>Backward substitution</h3>
-<p>Repeatedly replace \(T(n)\) with its recurrence until the base case appears. Simplify, then verify the proposed closed form by induction.</p>
-<div class="formula">
-\[T(n)=T(n-1)+c,\ T(1)=d \Rightarrow T(n)=d+c(n-1)\in\Theta(n)\]
-\[T(n)=T(n/2)+c,\ T(1)=d \Rightarrow \Theta(\log n)\ \text{for } n=2^k\]
-\[T(n)=2T(n/2)+cn \Rightarrow \Theta(n\log n)\ \text{for } n=2^k\]
-</div>
+<ol><li>Write the recurrence and the initial condition.</li><li>Substitute the recurrence into itself 2–3 times, keeping the structure visible (write \(2^2M(n-2)+2+1\), not \(4M(n-2)+3\)).</li><li>Spot the pattern after \(i\) substitutions.</li><li>Choose \(i\) so the argument reaches the initial condition.</li><li>Simplify with the formulas of Module 1.</li><li>Verify by plugging the answer into the recurrence and the initial condition (or by induction).</li></ol>
 
-<h3>Recursion tree: Tower of Hanoi</h3>
-<div class="tree2">
-<div class="lvl-label">Level 0:</div><div class="level"><div class="node">\(T(n)\)</div></div>
-<div class="lvl-label">Level 1:</div><div class="level"><div class="node">\(T(n-1)\)</div><div class="node">1 move</div><div class="node">\(T(n-1)\)</div></div>
-<div class="lvl-label">Level 2:</div><div class="level"><div class="node">\(T(n-2)\)</div><div class="node">1</div><div class="node">\(T(n-2)\)</div><div class="node">1</div><div class="node">\(T(n-2)\)</div><div class="node">1</div><div class="node">\(T(n-2)\)</div></div>
-<div class="lvl-label">⋮</div>
-<div class="lvl-label">Leaves:</div><div class="level"><div class="node">\(T(1)\)</div><div class="node">…</div><div class="node">\(T(1)\)</div></div>
-<div class="node" style="background:#e9eeff">Total: \(1+2+4+\dots+2^{n-1}=2^n-1\)</div>
-</div>
-<p>At level \(k\) there are \(2^k\) subproblems, each of size \(n-k\). Expanding:</p>
-\[T(n)=2T(n-1)+1=2^2T(n-2)+2+1=\dots=2^nT(0)+(2^n-1)=2^n-1\in\Theta(2^n).\]
-<p><b>Induction check:</b> \(T(1)=1\); if \(T(n-1)=2^{n-1}-1\), then \(T(n)=2(2^{n-1}-1)+1=2^n-1\). ✔</p>
+<h3 id="m2ex">Worked examples</h3>
 
-<h3>Recursion tree: naive Fibonacci</h3>
-<div class="tree2">
-<div class="lvl-label">Level 0:</div><div class="level"><div class="node">\(F(n)\)</div></div>
-<div class="lvl-label">Level 1:</div><div class="level"><div class="node">\(F(n-1)\)</div><div class="node">\(F(n-2)\)</div></div>
-<div class="lvl-label">Level 2:</div><div class="level"><div class="node">\(F(n-2)\)</div><div class="node">\(F(n-3)\)</div><div class="node">\(F(n-3)\)</div><div class="node">\(F(n-4)\)</div></div>
-<div class="lvl-label">⋮</div>
-<div class="lvl-label">Observation:</div><div class="level"><div class="node" style="background:#fff8df">\(F(n-2)\) recomputed twice at level 2 alone</div></div>
-</div>
-<p>The number of nodes grows like \(F(n+1)-1\). Since \(F(n)\sim \varphi^n/\sqrt5\) with \(\varphi=(1+\sqrt5)/2\), the naive running time is \(\Theta(\varphi^n)\) — exponential.</p>
+<div class="box"><h4>Example 1. Factorial (from the lecture)</h4><div class="code" data-c="fact"></div>
+<p><b>Input size:</b> \(n\). <b>Basic operation:</b> multiplication. <b>Cases:</b> one case. <b>Recurrence:</b> \(F(n)\) calls \(F(n-1)\) and then multiplies once. <b>Initial condition:</b> <code>F(0)</code> returns 1 without multiplying.</p>
+\[M(n)=M(n-1)+1\ (n>0),\qquad M(0)=0.\]
+<p><b>Backward substitution:</b></p>
+\[M(n)=M(n-1)+1=M(n-2)+2=M(n-3)+3=\dots=M(n-i)+i.\]
+<p>Take \(i=n\): \(M(n)=M(0)+n\).</p>
+\[M(n)=n\in\Theta(n).\]
+<p><b>Verify:</b> \(M(0)=0\) ✓ and \(M(n-1)+1=(n-1)+1=n\) ✓. <b>Why it matters:</b> the loop version also needs \(n\) multiplications, but recursion uses \(n\) stack frames, so memory is \(\Theta(n)\).</p></div>
 
-<h3>Binary digits</h3>
-<pre>ALGORITHM BinRec(n)          // n ≥ 1
-if n = 1 then return 1
-else return BinRec(⌊n/2⌋) + 1</pre>
-<ol>
-<li>Size: \(n\) (value).</li>
-<li>Basic operation: addition.</li>
-<li>Cases: one case.</li>
-<li>\[A(n)=A(\lfloor n/2\rfloor)+1,\quad A(1)=0.\]</li>
-<li>For \(n=2^k\): \(A(2^k)=A(2^{k-1})+1=\dots=A(1)+k=k\). In general \(A(n)=\lfloor\log_2 n\rfloor\in\Theta(\log n)\).</li>
-</ol>
+<div class="box"><h4>Example 2. Tower of Hanoi (from the lecture)</h4><div class="code" data-c="hanoi"></div>
+<p><b>Input size:</b> the number of disks \(n\). <b>Basic operation:</b> moving one disk. <b>Cases:</b> one case. <b>Idea:</b> move \(n-1\) disks aside, move the largest disk, move the \(n-1\) disks back on top.</p>
+\[M(n)=2M(n-1)+1\ (n>1),\qquad M(1)=1.\]
+<p><b>Backward substitution</b> (after \(i\) steps):</p>
+\[M(n)=2^{i}M(n-i)+2^{i-1}+\dots+2+1=2^{i}M(n-i)+2^{i}-1.\]
+<p>Take \(i=n-1\):</p>
+\[M(n)=2^{n-1}\cdot1+2^{n-1}-1=2^n-1\in\Theta(2^n).\]
+<p><b>Numbers:</b> 10 disks need 1023 moves, 20 disks need 1 048 575, 64 disks need about \(1.8\cdot10^{19}\). The tree of calls has levels with \(1,2,4\) calls for \(n=3\), in total \(7=2^3-1\), which confirms the formula.</p><div id="ht"></div>
+<p><b>Why it matters:</b> the exponential growth is a property of the problem, not of this algorithm (no algorithm can do better). Recursion can hide this cost behind short code.</p></div>
 
-<h3>Naive Fibonacci</h3>
-<pre>ALGORITHM F(n)
-if n ≤ 1 return n
-else return F(n-1) + F(n-2)</pre>
-<ol>
-<li>Size: \(n\).</li>
-<li>Basic operation: addition.</li>
-<li>Cases: one case.</li>
-<li>\[A(n)=A(n-1)+A(n-2)+1,\quad A(0)=A(1)=0.\]</li>
-<li>Solution: \(A(n)=F(n+1)-1\in\Theta(\varphi^n)\) with \(\varphi=(1+\sqrt5)/2\).</li>
-</ol>
+<div class="box"><h4>Example 3. Counting binary digits, \(n=2^k\) (from the lecture)</h4><div class="code" data-c="bin"></div>
+<p><b>Input size:</b> \(n\). <b>Basic operation:</b> the addition. <b>Cases:</b> one case. <b>Recurrence:</b> \(n\) has one more binary digit than \(\lfloor n/2\rfloor\).</p>
+\[A(n)=A(\lfloor n/2\rfloor)+1\ (n>1),\qquad A(1)=0.\]
+<p>The floor makes substitution messy, so first take \(n=2^k\):</p>
+\[A(2^k)=A(2^{k-1})+1=A(2^{k-2})+2=\dots=A(2^{k-i})+i=A(2^0)+k=k.\]
+<p>Since \(k=\log_2n\):</p>
+\[A(n)=\log_2n\in\Theta(\log n)\quad(\text{exactly }\lfloor\log_2n\rfloor\text{ for all }n).\]
+<p><b>Check:</b> \(n=8=1000_2\) has 4 digits and needs 3 additions. <b>Why it matters:</b> halving problems (binary search, bit counting) are logarithmic, so \(n=10^9\) needs only about 30 steps.</p></div>
+
+<div class="box"><h4>Original example 1. Recursive maximum <span class="own">(Student 3)</span></h4><div class="code" data-c="rmax"></div>
+<p><b>Code:</b> <code>Max(A,n)</code>: if \(n=1\) return <code>A[0]</code>; otherwise compare <code>Max(A,n-1)</code> with <code>A[n-1]</code> and return the larger. <b>Input size:</b> \(n\). <b>Basic operation:</b> the comparison. <b>Cases:</b> one case.</p>
+\[C(n)=C(n-1)+1\ (n>1),\qquad C(1)=0\ \Rightarrow\ C(n)=n-1\in\Theta(n).\]
+<p><b>Why it matters:</b> it has the same comparisons as the loop in Module 1, but uses \(\Theta(n)\) stack, so a loop is safer for huge arrays.</p></div>
+
+<div class="box"><h4>Original example 2. Fast exponentiation, \(n=2^k\) <span class="own">(Student 4)</span></h4><div class="code" data-c="pow"></div>
+<p><b>Code:</b> <code>Pow(a,n)</code>: if \(n=1\) return \(a\); otherwise \(p\leftarrow\)<code>Pow(a,n/2)</code> and return \(p\cdot p\). <b>Input size:</b> \(n\). <b>Basic operation:</b> multiplication. <b>Cases:</b> one case.</p>
+\[M(n)=M(n/2)+1,\quad M(1)=0\ \Rightarrow\ M(2^k)=M(2^{k-1})+1=\dots=k=\log_2n.\]
+<p><b>Check:</b> \(a^{8}\) needs 3 multiplications, not 7. <b>Why it matters:</b> computing \(a^{1024}\) takes 10 multiplications instead of 1023; the idea is used in hash functions and in computing Fibonacci numbers by matrix powers.</p></div>
+
+<h3 id="fib">Warning: naive Fibonacci</h3><div class="code" data-c="fib"></div>
+<p><b>Code:</b> <code>F(n)</code>: if \(n\le1\) return \(n\); else return <code>F(n-1)+F(n-2)</code>. <b>Basic operation:</b> the addition.</p>
+\[A(n)=A(n-1)+A(n-2)+1,\qquad A(0)=A(1)=0.\]
+<p>Put \(B(n)=A(n)+1\). Then \(B(n)=B(n-1)+B(n-2)\) is the Fibonacci recurrence, so</p>
+\[A(n)=F(n+1)-1\in\Theta(\varphi^n),\qquad\varphi=\tfrac{1+\sqrt5}2\approx1.618.\]
+<table><tr><th>\(n\)</th><th>5</th><th>10</th><th>20</th><th>30</th><th>50</th></tr><tr><td>additions \(A(n)\)</td><td>7</td><td>88</td><td>10 945</td><td>1 346 268</td><td>≈\(2\cdot10^{10}\)</td></tr><tr><td>additions of the loop version</td><td>4</td><td>9</td><td>19</td><td>29</td><td>49</td></tr></table>
+<p><b>Why it is slow:</b> the recursion tree computes \(F(n-2)\) twice, \(F(n-3)\) three times, and so on, while only \(n+1\) different values exist. <b>Fixes:</b> memoization (store each \(F(k)\) in a table the first time) or a loop keeping the last two values: \(n-1\) additions, \(\Theta(n)\). <b>General lesson:</b> a correct recursive definition with overlapping subproblems can be hopelessly slow.</p>
 
 <h3>Recursion vs. iteration</h3>
-<p>Each call uses a stack frame; depth \(n\) uses \(\Theta(n)\) memory. <b>Tail recursion</b> (call as last action) can be rewritten as a loop; Python limits recursion depth (~1000).</p>
-</section>
-
-<section id="m2examples" class="card"><h2>Module 2 — worked examples</h2>
-<h3>Example 1: Factorial</h3>
-<ol>
-<li>Size: \(n\).</li>
-<li>Basic operation: multiplication.</li>
-<li>Cases: one case.</li>
-<li>\[M(n)=M(n-1)+1,\quad M(1)=0.\]</li>
-<li>\[M(n)=M(n-1)+1=\dots=M(1)+(n-1)=n-1\in\Theta(n).\]</li>
-</ol>
-
-<h3>Example 2: Counting binary digits</h3>
-<ol>
-<li>Size: value \(n\).</li>
-<li>Basic operation: addition.</li>
-<li>Cases: one case.</li>
-<li>\[A(n)=A(\lfloor n/2\rfloor)+1,\quad A(1)=0.\]</li>
-<li>For \(n=2^k\), \(A(n)=k=\log_2 n\); general \(A(n)=\lfloor\log_2 n\rfloor\in\Theta(\log n)\).</li>
-</ol>
-
-<h3>Example 3: Recursive maximum (original)</h3>
-<p>Split array in halves; recursive max on each half; combine with one comparison.</p>
-<ol>
-<li>Size: \(n\).</li>
-<li>Basic operation: comparison in combine.</li>
-<li>Cases: one case.</li>
-<li>\[T(n)=2T(n/2)+1,\quad T(1)=0.\]</li>
-<li>Recursion tree: \(\log_2 n\) levels, each with \(1+2+4+\dots=2^{\text{level}}\) combines proportional to number of subarrays at that level → total \(\Theta(n)\).</li>
-</ol>
-
-<h3>Example 4: Fast exponentiation (original)</h3>
-<pre>Power(a, n):
-    if n = 1: return a
-    p ← Power(a, ⌊n/2⌋)
-    return p*p*(n mod 2 ? a : 1)</pre>
-<ol>
-<li>Size: \(n\).</li>
-<li>Basic operation: multiplication.</li>
-<li>Cases: one case.</li>
-<li>\[M(n)=M(\lfloor n/2\rfloor)+O(1),\quad M(1)=0.\]</li>
-<li>Halving: \(M(n)=\Theta(\log n)\). Compare naive \(n-1\).</li>
-</ol>
+<p>Recursion mirrors definitions and gives short code (trees, divide and conquer), but the call stack uses memory. Report stack depth as space complexity. <b>Example:</b> a recursive directory scan can overflow the stack on a very deep folder tree.</p>
+<table><tr><th>Algorithm</th><th>Time</th><th>Stack depth</th></tr><tr><td>Factorial</td><td>\(\Theta(n)\)</td><td>\(\Theta(n)\)</td></tr><tr><td>Binary digits</td><td>\(\Theta(\log n)\)</td><td>\(\Theta(\log n)\)</td></tr><tr><td>Tower of Hanoi</td><td>\(\Theta(2^n)\)</td><td>\(\Theta(n)\)</td></tr><tr><td>Naive Fibonacci</td><td>\(\Theta(\varphi^n)\)</td><td>\(\Theta(n)\)</td></tr></table>
+<p><b>Tail recursion</b> (the recursive call is the last action) can be turned into a loop mechanically, and some compilers do it automatically.</p>
 </section>
 
 <section id="m2tasks" class="card"><h2>Module 2 — practice tasks and solutions</h2>
@@ -136,53 +90,112 @@ else return F(n-1) + F(n-2)</pre>
 <div id="m2problemList" style="margin-top:18px"></div></section>
 
 <section id="sum2" class="card"><h2>Module 2 summary and cheat sheet</h2>
-<p><b>Method:</b> write recurrence → add initial condition → unroll → verify by induction → classify.</p>
+<p><b>Summary.</b> Recurrence + initial condition, then backward substitution, then verification.</p>
 <div class="formula">
-<b>Common recurrences:</b>
-\[T(n)=T(n-1)+c,\ T(1)=d \Rightarrow \Theta(n)\]
-\[T(n)=2T(n-1)+1,\ T(1)=1 \Rightarrow 2^n-1\in\Theta(2^n)\]
-\[T(n)=T(\lfloor n/2\rfloor)+c,\ T(1)=0 \Rightarrow \Theta(\log n)\]
-\[T(n)=2T(n/2)+cn,\ n=2^k \Rightarrow \Theta(n\log n)\]
-<b>Named results:</b>
-\[\text{Factorial: }n-1\]
-\[\text{Hanoi: }2^n-1\]
-\[\text{BinRec: }\lfloor\log_2 n\rfloor\]
-\[\text{FastPow: }\log_2 n\]
-\[\text{Naive Fibonacci: }F(n+1)-1\in\Theta(\varphi^n),\ \varphi=\tfrac{1+\sqrt5}{2}\]
-</div>
-</section>
+<b>Cheat sheet:</b> \(M(n)=M(n-1)+1\Rightarrow n\); \(M(n)=2M(n-1)+1\Rightarrow2^n-1\); \(A(n)=A(n/2)+1\Rightarrow\log_2n\); naive Fibonacci additions \(F(n+1)-1\in\Theta(\varphi^n)\).
+</div></section>
 
 <div class="footer">Module 2 of the Algorithm Analysis e-textbook. <a href="experiment.html">Continue to the experiment →</a></div>
 </main></div>
 <script>
+const R=String.raw;
+const C={
+fact:[`ALGORITHM F(n)
+  if n = 0 return 1
+  else return F(n − 1) * n`,`def factorial(n):
+    if n == 0:
+        return 1
+    return factorial(n - 1) * n   # one multiplication`],
+hanoi:[`ALGORITHM Hanoi(n, from, to, via)
+  if n = 1 move disk from → to
+  else Hanoi(n − 1, from, via, to)
+       move disk from → to
+       Hanoi(n − 1, via, to, from)`,`def hanoi(n, src, dst, via, moves):
+    if n == 1:
+        moves.append((src, dst))
+        return
+    hanoi(n - 1, src, via, dst, moves)
+    moves.append((src, dst))              # one move
+    hanoi(n - 1, via, dst, src, moves)    # len(moves) = 2**n - 1`],
+bin:[`ALGORITHM BinRec(n)
+  if n = 1 return 1
+  else return BinRec(⌊n/2⌋) + 1`,`def bin_rec(n):
+    if n == 1:
+        return 1
+    return bin_rec(n // 2) + 1   # one addition`],
+rmax:[`ALGORITHM Max(A, n)   // largest of A[0..n−1]
+  if n = 1 return A[0]
+  temp ← Max(A, n − 1)
+  if temp > A[n − 1] return temp
+  else return A[n − 1]`,`def rec_max(a, n):
+    if n == 1:
+        return a[0]
+    temp = rec_max(a, n - 1)
+    return temp if temp > a[n - 1] else a[n - 1]  # 1 comparison`],
+pow:[`ALGORITHM Pow(a, n)   // n = 2^k
+  if n = 1 return a
+  p ← Pow(a, n / 2)
+  return p * p`,`def power(a, n):          # n is a power of 2
+    if n == 1:
+        return a
+    p = power(a, n // 2)
+    return p * p         # one multiplication`],
+fib:[`ALGORITHM F(n)          // naive
+  if n ≤ 1 return n
+  else return F(n − 1) + F(n − 2)
+
+ALGORITHM Fib(n)        // iterative
+  F[0] ← 0; F[1] ← 1
+  for i ← 2 to n do
+    F[i] ← F[i − 1] + F[i − 2]
+  return F[n]`,`def fib(n):                  # naive: Θ(φ^n) additions
+    return n if n <= 1 else fib(n - 1) + fib(n - 2)
+
+memo = {}
+def fib_memo(n):             # each F(k) computed once: Θ(n)
+    if n <= 1:
+        return n
+    if n not in memo:
+        memo[n] = fib_memo(n - 1) + fib_memo(n - 2)
+    return memo[n]
+
+def fib_iter(n):             # Θ(n) additions, O(1) memory
+    a, b = 0, 1
+    for _ in range(n):
+        a, b = b, a + b
+    return a`]
+};
+const esc=x=>x.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+document.querySelectorAll(".code").forEach(d=>{const c=C[d.dataset.c];d.innerHTML=`<div class="cg"><div><span class="own">Pseudocode (Levitin’s notation)</span><pre>${esc(c[0])}</pre></div><div><span class="own">Python</span><pre>${esc(c[1])}</pre></div></div>`});
+
 const quiz2=[
-['A recurrence should normally include:',['Only O notation','A recurrence and base condition','Only source code'],1,['Wrong: a recurrence is needed too.','Correct: the base condition anchors the recursive definition.','Wrong: source code is not part of the mathematical definition.']],
-['T(n)=T(n−1)+1 with T(1)=0 is:',['Θ(1)','Θ(log n)','Θ(n)'],2,['Wrong: no, the count grows.','Wrong: that would be T(n)=T(n/2)+c.','Correct: unrolling gives n−1 additions.']],
-['T(n)=T(n/2)+1 for n a power of 2 is:',['Θ(log n)','Θ(n)','Θ(n²)'],0,['Correct: the input is halved at each call.','Wrong: that would need T(n−1).','Wrong: too large.']],
-['Tower of Hanoi requires how many moves for n disks?',['n²','2ⁿ−1','n!'],1,['Wrong: too small.','Correct: T(n)=2T(n−1)+1, T(1)=1 → 2ⁿ−1.','Wrong: too large.']],
-['Naive recursive Fibonacci is slow mainly because it:',['Uses no addition','Repeats subproblems','Has no base case'],1,['Wrong: addition is the basic operation.','Correct: F(n−2) is recomputed many times.','Wrong: it does have base cases.']],
-['Memoization improves Fibonacci by:',['Storing results','Increasing recursion depth','Removing the input'],0,['Correct: previously computed values are reused.','Wrong: it decreases effective work.','Wrong: input is not removed.']],
-['Recursive calls use extra memory mainly through the:',['Call stack','CPU clock','Input alphabet'],0,['Correct: each active call stores a frame.','Wrong: unrelated.','Wrong: unrelated.']],
-['For factorial, number of recursive multiplications is:',['Θ(log n)','Θ(n)','Θ(n²)'],1,['Wrong: factorial has n−1 multiplications, not log n.','Correct: one per level except the base case.','Wrong: far too large.']],
-['For n=2ᵏ, log₂n equals:',['n','k','2k'],1,['Wrong: log₂n is much smaller.','Correct: by definition log₂(2ᵏ)=k.','Wrong: off by factor 2.']],
-['Tail recursion means the recursive call is:',['Always first','The final operation','Never executed'],1,['Wrong: it is not first.','Correct: no work remains after the call returns.','Wrong: the call must execute.']]
+['Initial condition for multiplications in recursive factorial:',['M(0)=1','M(0)=0','M(1)=2'],1,['Returning 1 is not a multiplication.','Correct: no multiplication when n=0.','F(1) makes one multiplication, not two.']],
+['Moves for n disks in Tower of Hanoi:',['2n','2ⁿ−1','n²'],1,['Linear; the recurrence doubles.','Correct: from M(n)=2M(n−1)+1.','Polynomial; it is exponential.']],
+['A(n)=A(⌊n/2⌋)+1, A(1)=0 grows as:',['Θ(n)','Θ(log n)','Θ(2ⁿ)'],1,['Halving gives far fewer steps.','Correct: about log₂n halvings.','Not exponential.']],
+['Why is naive Fibonacci slow?',['It repeats the same subproblems','It uses too many variables','Addition is expensive'],0,['Correct: the recursion tree recomputes F(k) many times.','It uses almost none.','Time is lost in call count, not addition cost.']],
+['Stack depth of recursive factorial:',['Θ(1)','Θ(n)','Θ(log n)'],1,['Each pending call needs a frame.','Correct: n nested calls.','That is for BinRec.']],
+['Backward substitution on M(n)=M(n−1)+1 gives, after i steps:',['M(n−i)+i','M(n−i)+1','i·M(n−i)'],0,['Correct: each step adds 1.','The constants add up.','The recurrence has no multiplication.']],
+['Tower of Hanoi with 10 disks needs:',['100 moves','1023 moves','1024 moves'],1,['The formula is not n².','Correct: 2¹⁰−1=1023.','Off by one: it is 2ⁿ−1.']],
+['The solution of A(n)=A(n−1)+A(n−2)+1, A(0)=A(1)=0 is:',['n−1','F(n+1)−1','2ⁿ−1'],1,['That is the loop version.','Correct: B(n)=A(n)+1 is the Fibonacci recurrence.','That is the Tower of Hanoi.']],
+['Memoization fixes naive Fibonacci because:',['each F(k) is stored and computed once','it removes recursion','it makes one addition faster'],0,['Correct: only n+1 distinct subproblems exist.','Recursion may stay.','Cost per addition is unchanged.']],
+['Why solve A(n)=A(⌊n/2⌋)+1 first for n=2^k?',['the floor disappears and substitution is clean','other n are not allowed','k is the input size'],0,['Correct: the smoothness rule extends the result to all n.','All n are allowed.','The input size is n.']]
 ];
 
 const m2=[
-['A',String.raw`Solve \(T(n)=T(n-1)+1,\ T(1)=1\).`,'Expand a few times.',String.raw`\(T(n)=n\in\Theta(n)\).`,String.raw`\[T(n)=T(n-1)+1=T(n-2)+2=\dots=T(1)+(n-1)=n.\]`],
-['A',String.raw`Recursive function halves \(n\) until \(n=1\), constant work per call. Order?`,'Count halvings.',String.raw`\(\Theta(\log n)\).`,String.raw`After \(k\) halvings \(n/2^k=1\), so \(k=\log_2 n\).`],
-['A',String.raw`Factorial: one recursive call on \(n-1\), one multiplication per non-base call. Time and stack?`,String.raw`\(n\) levels.`,String.raw`Time \(\Theta(n)\), stack \(\Theta(n)\).`,String.raw`\(M(n)=M(n-1)+1\) → \(n-1\) multiplications. Call depth \(n\).`],
-['A','What base condition is appropriate for factorial?','Smallest valid input.','factorial(0)=1 (or factorial(1)=1).','The base case stops recursion and returns the multiplicative identity.'],
-['B',String.raw`Solve \(T(n)=T(n-1)+3,\ T(1)=2\).`,'Each step adds 3.',String.raw`\(T(n)=3n-1\in\Theta(n)\).`,String.raw`\[T(n)=T(1)+3(n-1)=2+3n-3=3n-1.\]`],
-['B',String.raw`Solve \(T(n)=T(n/2)+2,\ T(1)=1\) for \(n=2^k\).`,String.raw`\(k\) halvings.`,String.raw`\(T(n)=1+2\log_2 n\in\Theta(\log n)\).`,String.raw`For \(n=2^k\): \(T(n)=T(1)+2k=1+2\log_2 n\).`],
-['B',String.raw`Solve \(T(n)=2T(n/2)+n,\ T(1)=1,\ n=2^k\).`,String.raw`Each tree level contributes \(n\).`,String.raw`\(\Theta(n\log n)\).`,String.raw`\[T(n)=2T(n/2)+n=4T(n/4)+2n=\dots=2^kT(1)+kn=n\log_2 n.\]`],
-['B',String.raw`Hanoi: \(T(n)=2T(n-1)+1,\ T(0)=0\). Compute \(T(3)\).`,String.raw`Use \(T(1)=1\), then \(T(2)\), then \(T(3)\).`,String.raw`\(T(3)=7\).`,String.raw`\(T(0)=0\); \(T(1)=1\); \(T(2)=2\cdot1+1=3\); \(T(3)=2\cdot3+1=7\).`],
-['C',String.raw`Prove by induction \(T(n)=n-1\) for \(T(1)=0\), \(T(n)=T(n-1)+1\).`,'Base case + induction step.',String.raw`\(T(n)=n-1\).`,String.raw`Base \(n=1\): \(T(1)=0=1-1\). Assume \(T(k)=k-1\). Then \(T(k+1)=T(k)+1=(k-1)+1=k=(k+1)-1\). True for all \(n\ge1\).`],
-['C',String.raw`Explain why memoized Fibonacci takes \(\Theta(n)\) time.`,'How many distinct arguments?',String.raw`\(\Theta(n)\) time; \(\Theta(n)\) stored.`,String.raw`\(F(0)\) through \(F(n)\) are each computed once. Constant arithmetic per value → \(\Theta(n)\) total.`],
-['C',String.raw`Solve \(T(n)=T(n-1)+2^n,\ T(0)=1\).`,'Geometric sum.',String.raw`\(T(n)=2^{n+1}-1\in\Theta(2^n)\).`,String.raw`\[T(n)=1+\sum_{i=1}^{n}2^i=1+(2^{n+1}-2)=2^{n+1}-1.\]`],
-['M',String.raw`Student writes \(T(n)=T(n-1)+1\) but forgets \(T(1)\). What is missing?`,'Recurrence needs a stopping value.','Missing base/initial condition.',String.raw`Without it the recurrence has no unique solution. Add \(T(1)=0\) (or appropriate base).`],
-['M',String.raw`Student claims naive Fibonacci is \(\Theta(n)\). Mistake?`,String.raw`Input size ≠ operation count.`,'Repeated subproblems cause exponential growth.',String.raw`\(F(n-1)\) and \(F(n-2)\) overlap and recompute values. Naive is \(\Theta(\varphi^n)\); memoization reduces to \(\Theta(n)\).`],
-['E',String.raw`Write a counter for factorial and verify multiplications for \(n=5,10\).`,String.raw`Count multiplication only when \(n>1\).`,String.raw`Expected: 4 and 9 multiplications; formula \(n-1\); \(\Theta(n)\).`,String.raw`Base \(n\le1\) does no multiplication. Levels \(n,n-1,\dots,2\) each perform one → \(n-1\).`]
+['A',R`<code>Sum(A,n)</code> returns <code>Sum(A,n-1)+A[n-1]</code>, with <code>Sum(A,1)=A[0]</code>. How many additions?`,R`Does the base case add anything?`,R`$n-1$ additions.`,R`<b>Step 1.</b> Basic operation: the addition. The call for $n$ makes one addition after the call for $n-1$: $S(n)=S(n-1)+1$.<br><b>Step 2.</b> Base case: <code>Sum(A,1)</code> returns <code>A[0]</code>, no addition: $S(1)=0$.<br><b>Step 3.</b> Substitute: $S(n)=S(n-i)+i$. Take $i=n-1$: $S(n)=S(1)+n-1=n-1$.<br><b>Check:</b> $n=3$: $A[0]+A[1]+A[2]$ is 2 additions ✓.`],
+['A',R`Solve $x(n)=x(n-1)+3$, $x(1)=2$.`,R`Substitute $i$ times: $x(n-i)+3i$.`,R`$x(n)=3n-1$.`,R`<b>Step 1.</b> $x(n)=x(n-1)+3=x(n-2)+6=x(n-3)+9=\dots=x(n-i)+3i$.<br><b>Step 2.</b> The initial condition is at $n=1$, so $i=n-1$.<br><b>Step 3.</b> $x(n)=x(1)+3(n-1)=2+3n-3=3n-1$.<br><b>Verify:</b> $x(1)=2$ ✓; $x(n-1)+3=3(n-1)-1+3=3n-1$ ✓.`],
+['A',R`A recursive function <code>show(n)</code> prints one line and then calls <code>show(n-1)</code>; <code>show(0)</code> prints nothing. How many lines are printed?`,R`Set up $P(n)$ and the initial condition $P(0)$.`,R`$P(n)=n$.`,R`<b>Step 1.</b> Basic operation: printing a line.<br><b>Step 2.</b> $P(n)=P(n-1)+1$, $P(0)=0$.<br><b>Step 3.</b> Backward substitution: $P(n)=P(n-i)+i$; with $i=n$: $P(n)=P(0)+n=n$.<br><b>Verify:</b> $P(0)=0$ ✓ and $P(n-1)+1=n$ ✓. <code>show(3)</code> prints 3 lines.`],
+['A',R`Solve $x(n)=x(n-1)+5$, $x(1)=7$.`,R`After $i$ substitutions: $x(n-i)+5i$.`,R`$x(n)=5n+2$.`,R`<b>Step 1.</b> $x(n)=x(n-1)+5=x(n-2)+10=\dots=x(n-i)+5i$.<br><b>Step 2.</b> The initial condition is at $n=1$, so $i=n-1$.<br><b>Step 3.</b> $x(n)=x(1)+5(n-1)=7+5n-5=5n+2$.<br><b>Verify:</b> $x(1)=7$ ✓; $x(n-1)+5=5(n-1)+2+5=5n+2$ ✓.`],
+['B',R`Solve $x(n)=2x(n-1)+3$, $x(1)=1$.`,R`After $i$ steps: $2^ix(n-i)+3(2^i-1)$.`,R`$x(n)=2^{n+1}-3$.`,R`<b>Step 1.</b> $x(n)=2x(n-1)+3=2[2x(n-2)+3]+3=2^2x(n-2)+3\cdot2+3$.<br><b>Step 2.</b> Next: $2^3x(n-3)+3\cdot2^2+3\cdot2+3$. In general $x(n)=2^ix(n-i)+3(2^{i-1}+\dots+2+1)=2^ix(n-i)+3(2^i-1)$.<br><b>Step 3.</b> Take $i=n-1$: $x(n)=2^{n-1}\cdot1+3(2^{n-1}-1)=4\cdot2^{n-1}-3=2^{n+1}-3$.<br><b>Check:</b> $x(2)=2\cdot1+3=5=2^3-3$ ✓; $x(3)=13=2^4-3$ ✓.`],
+['B',R`Solve $x(n)=x(n-1)+2n$, $x(0)=0$.`,R`Substitute and notice you are adding $2n+2(n-1)+\dots$.`,R`$x(n)=n(n+1)$.`,R`<b>Step 1.</b> $x(n)=x(n-1)+2n=x(n-2)+2(n-1)+2n=\dots=x(n-i)+2[n+(n-1)+\dots+(n-i+1)]$.<br><b>Step 2.</b> Take $i=n$: $x(n)=x(0)+2(n+(n-1)+\dots+1)=2\sum_{k=1}^{n}k$.<br><b>Step 3.</b> $=2\cdot\frac{n(n+1)}2=n(n+1)$.<br><b>Check:</b> $x(3)=2+4+6=12=3\cdot4$ ✓.`],
+['B',R`Solve $x(n)=x(n-1)+2^n$, $x(0)=1$.`,R`Substitute and notice a geometric sum $2^n+2^{n-1}+\dots$.`,R`$x(n)=2^{n+1}-1$.`,R`<b>Step 1.</b> $x(n)=x(n-1)+2^n=x(n-2)+2^{n-1}+2^n=\dots=x(n-i)+2^{n-i+1}+\dots+2^n$.<br><b>Step 2.</b> Take $i=n$: $x(n)=x(0)+(2^1+2^2+\dots+2^n)$.<br><b>Step 3.</b> The geometric sum is $2^{n+1}-2$, so $x(n)=1+2^{n+1}-2=2^{n+1}-1$.<br><b>Check:</b> $x(2)=1+2+4=7=2^3-1$ ✓.`],
+['B',R`Solve $T(n)=T(n/2)+3$, $T(1)=0$ for $n=2^k$. What is $T(16)$?`,R`Each halving adds 3. How many halvings reach 1?`,R`$T(n)=3\log_2n$; $T(16)=12$.`,R`<b>Step 1.</b> $T(2^k)=T(2^{k-1})+3=T(2^{k-2})+6=\dots=T(2^{k-i})+3i$.<br><b>Step 2.</b> Take $i=k$: $T(2^k)=T(1)+3k=3k$.<br><b>Step 3.</b> With $k=\log_2n$: $T(n)=3\log_2n\in\Theta(\log n)$.<br><b>Check:</b> $n=16$, $k=4$: $T(16)=12$ ✓.`],
+['C',R`Prove by induction that $x(n)=2^{n+1}-3$ solves $x(n)=2x(n-1)+3$, $x(1)=1$.`,R`Check the base case, then assume the formula for $n-1$ and compute $x(n)$.`,R`The formula holds for all $n\ge1$.`,R`<b>Base ($n=1$).</b> $2^{2}-3=1=x(1)$ ✓.<br><b>Hypothesis.</b> Assume $x(n-1)=2^{n}-3$ for some $n\ge2$.<br><b>Step.</b> $x(n)=2x(n-1)+3=2(2^{n}-3)+3=2^{n+1}-6+3=2^{n+1}-3$ ✓.<br><b>Conclusion.</b> By induction the formula holds for every $n\ge1$.`],
+['C',R`Compute $A(5)$ (additions of naive Fibonacci) and check $A(n)=F(n+1)-1$.`,R`Use $A(n)=A(n-1)+A(n-2)+1$ and $A(0)=A(1)=0$.`,R`$A(5)=7=F(6)-1$.`,R`<b>Step 1.</b> $A(2)=A(1)+A(0)+1=1$.<br><b>Step 2.</b> $A(3)=A(2)+A(1)+1=2$; $A(4)=A(3)+A(2)+1=4$; $A(5)=A(4)+A(3)+1=7$.<br><b>Step 3.</b> Fibonacci: $F(0..6)=0,1,1,2,3,5,8$, so $F(6)-1=7$ ✓.<br><b>Tree check:</b> the tree of $F(5)$ has 8 leaves and 7 inner nodes; each inner node is one addition.`],
+['C',R`<code>Pow(a,n)</code> for $n=2^k$ makes one multiplication per call except the base case. Prove by induction on $k$ that the number of multiplications is $M(2^k)=k$.`,R`Use $M(2^{k+1})=M(2^k)+1$ and $M(1)=0$.`,R`$M(2^k)=k$, so $M(n)=\log_2n$.`,R`<b>Base ($k=0$).</b> $M(1)=0$ ✓ (<code>Pow(a,1)</code> returns $a$).<br><b>Hypothesis.</b> $M(2^k)=k$.<br><b>Step.</b> <code>Pow(a,2^{k+1})</code> calls <code>Pow(a,2^k)</code> ($k$ multiplications by the hypothesis) and then multiplies once ($p\cdot p$): $M(2^{k+1})=k+1$ ✓.<br><b>Conclusion.</b> True for all $k\ge0$.<br><b>Check:</b> $a^8$ needs 3 multiplications ($a^2,a^4,a^8$).`],
+['M',R`<b>Find the mistake.</b> “Recursive factorial: $M(n)=M(n-1)+1$, $M(0)=1$, so $M(n)=n+1$.”`,R`Does <code>F(0)</code> perform a multiplication?`,R`$M(0)=0$, so $M(n)=n$.`,R`<b>Step 1.</b> <code>F(0)</code> returns 1 immediately, with no multiplication, so $M(0)=0$ (not 1). The student confused the <i>returned value</i> with the <i>operation count</i>.<br><b>Step 2.</b> Correct: $M(n)=M(n-i)+i$, with $i=n$: $M(n)=M(0)+n=n$.<br><b>Check:</b> $F(2)=F(1)\cdot2=(F(0)\cdot1)\cdot2$ makes 2 multiplications; the wrong formula gives 3.`],
+['M',R`<b>Find the mistake.</b> “Tower of Hanoi: $M(n)=2M(n-1)+1$ gives $M(n)=2^iM(n-i)+2^i-1$. Take $i=n$ and $M(0)=1$: $M(n)=2^n+2^n-1=2^{n+1}-1$.”`,R`How many moves does a tower of 0 disks need? Test $n=3$.`,R`$M(0)=0$, so $M(n)=2^n-1$.`,R`<b>Step 1.</b> Zero disks need no move: $M(0)=0$, not 1.<br><b>Step 2.</b> With $i=n$: $M(n)=2^n\cdot0+2^n-1=2^n-1$. (With $i=n-1$ and $M(1)=1$ the result is the same.)<br><b>Check:</b> $n=3$ needs 7 moves; the student’s formula gives 15.`],
+['E',R`Count Tower of Hanoi moves and compare with $2^n-1$.`,R`The function mirrors the recurrence $M(n)=2M(n-1)+1$ with $M(0)=0$.`,R`For $n=1,\dots,10$: 1, 3, 7, 15, 31, 63, 127, 255, 511, 1023, equal to $2^n-1$.`,R`<b>Step 1.</b> <code>hanoi(n)</code> returns <code>2*hanoi(n-1)+1</code>, exactly the recurrence, with <code>hanoi(0)=0</code>. <b>Step 2.</b> Compare the 2nd and 3rd columns: they are equal for every $n$. <b>Step 3.</b> Conclusion: $M(n)=2^n-1\in\Theta(2^n)$; each extra disk doubles the work (20 disks need more than $10^6$ moves).`]
 ];
 
 function renderQuiz(id,qs){
@@ -197,6 +210,7 @@ function renderQuiz(id,qs){
 function gradeQuiz(id,resultId){
   let score=0, answered=0;
   const qs=[...document.querySelectorAll('#'+id+' .quiz-q')];
+  const data=id==='m2Quiz'?quiz2:m2;
   qs.forEach(q=>{
     const chosen=q.querySelector('input:checked');
     const f=q.querySelector('.feedback');
@@ -211,7 +225,7 @@ function gradeQuiz(id,resultId){
       const old=lab.nextElementSibling;
       if(old&&old.classList.contains('feedback'))old.remove();
       const mark=k===correct?'<span class="good">✓</span>':'<span class="bad">✗</span>';
-      lab.insertAdjacentHTML('afterend',`<div class="feedback">${mark} ${quiz2[i][3][k]}</div>`);
+      lab.insertAdjacentHTML('afterend',`<div class="feedback">${mark} ${data[i][3][k]}</div>`);
     });
     if(Number(chosen.value)===correct)score++;
   });
@@ -227,10 +241,6 @@ function renderProblems(id,problems){
     <details style="margin-top:6px"><summary style="cursor:pointer;color:var(--accent);font-weight:700">Show step-by-step solution</summary><p>${p[4]}</p></details>
   </article>`).join('');
 }
-
-renderQuiz('m2Quiz',quiz2);
-renderProblems('m2problemList',m2);
-</script></body></html>
 
 renderQuiz('m2Quiz',quiz2);
 renderProblems('m2problemList',m2);
