@@ -11,10 +11,26 @@ window.MathJax = {
 };
 </script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-chtml.js" async></script>
-</head><body><div class="layout"><aside class="sidebar"><div class="brand">Algorithm Analysis</div><p class="subbrand">Module 1 · Nonrecursive</p><nav class="nav"><a href="index.html">← Home</a><a href="module1.html" class="active">Module 1</a><a href="module2.html">Module 2</a><a href="experiment.html">Experiment</a><a href="#module1">Overview</a><a href="#m1examples">Worked examples</a><a href="#m1tasks">Tasks</a></nav></aside><main class="main">
+</head><body><div class="layout"><aside class="sidebar"><div class="brand">Algorithm Analysis</div><p class="subbrand">Module 1 · Nonrecursive</p><nav class="nav"><a href="index.html">← Home</a><a href="module1.html" class="active">Module 1</a><a href="module2.html">Module 2</a><a href="experiment.html">Experiment</a><a href="#module1">Overview</a><a href="#m1examples">Worked examples</a><a href="#m1tasks">Tasks</a><a href="#sum1">Summary & cheat sheet</a></nav></aside><main class="main">
 
-<section id="module1" class="card"><span class="tag">MODULE 1</span><h2>Mathematical Analysis of Nonrecursive Algorithms</h2><p><b>Learning outcomes:</b> identify input size and a basic operation; express operation counts as sums; estimate orders of growth; distinguish best, worst and average cases.</p><h3>The five-step plan</h3><ol><li><b>Identify input size.</b> Choose a parameter such as array length \(n\).</li><li><b>Identify the basic operation.</b> For example, compare two keys.</li><li><b>Check whether the count depends on input cases.</b> State best, worst or average case.</li><li><b>Set up a sum or count.</b> Count how many times the basic operation executes.</li><li><b>Simplify and classify.</b> Find \(O\), \(\Omega\) or \(\Theta\) as appropriate.</li></ol><h3>Useful summation formulas</h3><div class="formula">\[\sum_{i=1}^{n} 1 = n\]\[\sum_{i=1}^{n} i = \frac{n(n+1)}{2} \in \Theta(n^2)\]\[\sum_{i=1}^{n} i^2 = \frac{n(n+1)(2n+1)}{6} \in \Theta(n^3)\]\[\sum_{i=0}^{n-1} r^i = \frac{r^n-1}{r-1},\quad r \ne 1\]\[\sum_{i=1}^{n} i^k \in \Theta(n^{k+1}),\quad \text{for fixed } k \ge 0\]</div><h3>Visual: typical growth rates</h3><p class="muted">The curves illustrate why algorithms with different growth rates behave differently as \(n\) increases. This is a qualitative sketch, not measured data.</p><div class="mini"><svg viewBox="0 0 600 260" role="img" aria-label="Qualitative chart comparing logarithmic, linear and quadratic growth" style="width:100%;height:auto"><line x1="55" y1="220" x2="570" y2="220" stroke="#64748b" stroke-width="2"/><line x1="55" y1="220" x2="55" y2="25" stroke="#64748b" stroke-width="2"/><text x="565" y="245" font-size="13" fill="currentColor">input size n</text><text x="12" y="24" font-size="13" fill="currentColor">cost</text><path d="M55 215 Q220 195 570 185" fill="none" stroke="#18794e" stroke-width="3"/><path d="M55 220 L570 125" fill="none" stroke="#3659c9" stroke-width="3"/><path d="M55 220 Q280 210 570 35" fill="none" stroke="#b42318" stroke-width="3"/><text x="420" y="179" font-size="14" fill="#18794e">log n</text><text x="440" y="117" font-size="14" fill="#3659c9">n</text><text x="475" y="35" font-size="14" fill="#b42318">n²</text></svg></div>
-<h3>Visual: Selection sort operation count</h3>
+<section id="module1" class="card"><span class="tag">MODULE 1</span><h2>Mathematical Analysis of Nonrecursive Algorithms</h2><p><b>Learning outcomes:</b> identify input size and a basic operation; express operation counts as sums; estimate orders of growth; distinguish best, worst and average cases.</p><h3>The five-step plan</h3><ol><li><b>Identify input size.</b> Choose a parameter such as array length \(n\).</li><li><b>Identify the basic operation.</b> For example, compare two keys.</li><li><b>Check whether the count depends on input cases.</b> State best, worst or average case.</li><li><b>Set up a sum or count.</b> Count how many times the basic operation executes.</li><li><b>Simplify and classify.</b> Find \(O\), \(\Omega\) or \(\Theta\) as appropriate.</li></ol>
+
+<h3>Summation tools</h3>
+<div class="formula">
+<b>Number of terms:</b> \[\sum_{i=l}^{u} 1 = u-l+1\]
+<b>Constant factor:</b> \[\sum_{i=l}^{u} c\,a_i = c\sum_{i=l}^{u} a_i\]
+<b>Split / combine:</b> \[\sum_{i=l}^{u}(a_i \pm b_i) = \sum_{i=l}^{u} a_i \pm \sum_{i=l}^{u} b_i\]
+<b>Arithmetic series:</b> \[\sum_{i=1}^{n} i = \frac{n(n+1)}{2} \in \Theta(n^2)\]
+<b>Sum of squares:</b> \[\sum_{i=1}^{n} i^2 = \frac{n(n+1)(2n+1)}{6} \in \Theta(n^3)\]
+<b>Geometric series:</b> \[\sum_{i=0}^{n} r^i = \frac{r^{n+1}-1}{r-1},\quad r \ne 1\]
+<b>General power:</b> \[\sum_{i=1}^{n} i^k \in \Theta(n^{k+1}),\quad k \ge 0 \text{ fixed}\]
+</div>
+
+<h3>Visual: typical growth rates</h3>
+<p class="muted">The curves illustrate why algorithms with different growth rates behave differently as \(n\) increases. Qualitative sketch, not measured data.</p>
+<div class="mini"><svg viewBox="0 0 600 260" role="img" aria-label="Qualitative growth chart" style="width:100%;height:auto"><line x1="55" y1="220" x2="570" y2="220" stroke="#64748b" stroke-width="2"/><line x1="55" y1="220" x2="55" y2="25" stroke="#64748b" stroke-width="2"/><text x="565" y="245" font-size="13" fill="currentColor">input size n</text><text x="12" y="24" font-size="13" fill="currentColor">cost</text><path d="M55 215 Q220 195 570 185" fill="none" stroke="#18794e" stroke-width="3"/><path d="M55 220 L570 125" fill="none" stroke="#3659c9" stroke-width="3"/><path d="M55 220 Q280 210 570 35" fill="none" stroke="#b42318" stroke-width="3"/><text x="420" y="179" font-size="14" fill="#18794e">log n</text><text x="440" y="117" font-size="14" fill="#3659c9">n</text><text x="475" y="35" font-size="14" fill="#b42318">n²</text></svg></div>
+
+<h3>Visual: selection sort operation count</h3>
 <div class="mini"><table>
 <tr><th>\(n\)</th><th>Counted comparisons</th><th>\(n(n-1)/2\)</th><th>Match</th></tr>
 <tr><td>10</td><td>45</td><td>45</td><td>yes</td></tr>
@@ -23,36 +39,178 @@ window.MathJax = {
 <tr><td>500</td><td>124750</td><td>124750</td><td>yes</td></tr>
 <tr><td>1000</td><td>499500</td><td>499500</td><td>yes</td></tr>
 </table></div>
-<h3>Common loop patterns</h3><div class="formula">for \(i = 1..n\): one operation       → \(\Theta(n)\)<br>for \(i = 1..n\): for \(j = 1..n\)     → \(\Theta(n^2)\)<br>for \(i = 1..n\): for \(j = 1..i\)     → \(\sum i = \Theta(n^2)\)<br>\(i = 1\); while \(i &lt; n\): \(i = 2i\)  → \(\Theta(\log n)\)</div><p class="note"><b>Common mistakes:</b> counting assignments instead of the chosen basic operation; treating an input value as the input size; forgetting early exits; using the wrong loop endpoint; and ignoring work hidden inside a function call.</p></section>
 
-<section id="m1examples" class="card"><h2>Module 1 — worked examples</h2><h3>Example 1: Maximum element</h3><p>Given an array of \(n \ge 1\) values, find its maximum. The basic operation is the comparison \(A[i] &gt; \text{max}\).</p><ol><li>Input size: \(n\).</li><li>Basic operation: one comparison.</li><li>Cases: every valid input requires scanning the remaining elements.</li><li>Count: \(C(n) = n - 1\).</li><li>Therefore \(C(n) \in \Theta(n)\).</li></ol><h3>Example 2: Sum of an array (original example)</h3><p>Initialize \(\text{total} = 0\), then add each of \(n\) values to \(\text{total}\). If the basic operation is an addition, \(C(n) = n\), so the running time is \(\Theta(n)\).</p><h3>Example 3: Pairwise uniqueness check</h3><p>Compare every pair to determine whether all values are distinct. In the worst case, no duplicate is found, so the number of comparisons is</p><div class="formula">\[C(n) = (n-1)+(n-2)+\dots+1 = \frac{n(n-1)}{2} \in \Theta(n^2).\]</div><p>In the best case, the first tested pair matches and the algorithm stops immediately, giving \(\Theta(1)\) comparisons for \(n \ge 2\).</p><h3>Example 4: Matrix multiplication</h3><p>For two \(n \times n\) matrices, the standard triple loop computes each of \(n^2\) output entries using \(n\) multiplications and roughly \(n\) additions. Multiplications: \(n^3\), hence \(\Theta(n^3)\).</p><h3>Example 5: Dependent loop bound (original example)</h3><pre>for i = 1 to n:
+<h3>Common loop patterns</h3>
+<div class="formula">
+for \(i = 1..n\): one operation       → \(\Theta(n)\)<br>
+for \(i = 1..n\): for \(j = 1..n\)     → \(\Theta(n^2)\)<br>
+for \(i = 1..n\): for \(j = 1..i\)     → \(\sum_{i=1}^{n} i = \Theta(n^2)\)<br>
+\(i = 1\); while \(i < n\): \(i = 2i\)  → \(\Theta(\log n)\)
+</div>
+<p class="note"><b>Common mistakes:</b> counting assignments instead of the chosen basic operation; treating an input value as the input size; forgetting early exits; using the wrong loop endpoint; ignoring work hidden inside a function call.</p></section>
+
+<section id="m1examples" class="card"><h2>Module 1 — worked examples</h2>
+<h3>Example 1: Maximum element</h3>
+<p>Given an array of \(n \ge 1\) values, find its maximum. The basic operation is the comparison \(A[i] > \text{max}\).</p>
+<ol>
+<li>Input size: \(n\).</li>
+<li>Basic operation: one comparison.</li>
+<li>Cases: every valid input scans the remaining \(n-1\) elements — one case.</li>
+<li>Count: \[C(n) = \sum_{i=1}^{n-1} 1 = n-1.\]</li>
+<li>Therefore \(C(n) \in \Theta(n)\).</li>
+</ol>
+
+<h3>Example 2: Sum of an array (original)</h3>
+<p>Initialize \(\text{total} = 0\), then add each of \(n\) values.</p>
+<ol>
+<li>Size: \(n\).</li>
+<li>Basic operation: addition.</li>
+<li>Cases: one case.</li>
+<li>\[C(n) = \sum_{i=0}^{n-1} 1 = n.\]</li>
+<li>\[C(n) \in \Theta(n).\]</li>
+</ol>
+
+<h3>Example 3: Pairwise uniqueness check</h3>
+<p>Compare every pair to determine whether all values are distinct.</p>
+<ol>
+<li>Size: \(n\).</li>
+<li>Basic operation: comparison \(A[i] = A[j]\).</li>
+<li>Cases: early exit possible — worst and best differ.</li>
+<li>Worst case (no duplicate): \[C_{worst}(n) = \sum_{i=0}^{n-2}\sum_{j=i+1}^{n-1} 1 = \sum_{i=0}^{n-2}(n-1-i) = \frac{n(n-1)}{2}.\]</li>
+<li>\[C_{worst}(n) \in \Theta(n^2);\quad C_{best}(n) = 1 \in \Theta(1).\]</li>
+</ol>
+
+<h3>Example 4: Matrix multiplication</h3>
+<p>For two \(n \times n\) matrices, the triple loop computes \(n^2\) entries, each using \(n\) multiplications:</p>
+\[M(n) = \sum_{i=0}^{n-1}\sum_{j=0}^{n-1}\sum_{k=0}^{n-1} 1 = n^3 \in \Theta(n^3).\]
+
+<h3>Example 5: Dependent loop bound (original)</h3>
+<pre>for i = 1 to n:
     for j = 1 to 2*i:
-        count = count + 1</pre><p>The inner operation runs \(2i\) times for each \(i\). Thus \(C(n) = \sum 2i = n(n+1)\), which is \(\Theta(n^2)\).</p><h3>Example 6: Multiplicative loop</h3><pre>i = 1
-while i &lt; n:
-    i = 2*i</pre><p>After \(k\) iterations, \(i = 2^k\). The loop stops when \(2^k \ge n\), so \(k = \lceil\log_2 n\rceil\) and the number of iterations is \(\Theta(\log n)\).</p><h3>Average-case example: sequential search</h3><p>Suppose the target is equally likely to occur at any of the \(n\) positions, and it is guaranteed to be present. The comparison counts are \(1, 2, \dots, n\), so</p><div class="formula">\[C_{avg}(n) = \frac{1+2+\dots+n}{n} = \frac{n+1}{2} \in \Theta(n).\]</div></section>
+        count = count + 1</pre>
+<ol>
+<li>Size: \(n\).</li>
+<li>Basic operation: increment.</li>
+<li>Cases: one case.</li>
+<li>\[C(n) = \sum_{i=1}^{n} 2i = 2\cdot\frac{n(n+1)}{2} = n(n+1).\]</li>
+<li>\[C(n) \in \Theta(n^2).\]</li>
+</ol>
 
-<section id="m1tasks" class="card"><h2>Module 1 — practice tasks and solutions</h2><p class="muted">Try each task first. Select “Show solution” when ready. These are original practice formulations written for this guide.</p><h3>Module 1 auto-graded quiz (10 questions)</h3><div id="m1Quiz"></div><button onclick="gradeQuiz('m1Quiz','m1Result')">Check Module 1 quiz</button> <span id="m1Result" class="feedback"></span><div id="m1problemList" style="margin-top:18px"></div></section>
+<h3>Example 6: Multiplicative loop</h3>
+<pre>i = 1
+while i &lt; n:
+    i = 2*i</pre>
+<ol>
+<li>Size: \(n\).</li>
+<li>Basic operation: multiplication (loop body).</li>
+<li>Cases: one case.</li>
+<li>After \(k\) iterations \(i = 2^k\); loop stops when \(2^k \ge n\), so \(k = \lceil\log_2 n\rceil\).</li>
+<li>\[C(n) = \lceil\log_2 n\rceil \in \Theta(\log n).\]</li>
+</ol>
+
+<h3>Average-case example: sequential search</h3>
+<p>Target equally likely at any of \(n\) positions, guaranteed present.</p>
+\[C_{avg}(n) = \frac{1}{n}\sum_{i=1}^{n} i = \frac{1}{n}\cdot\frac{n(n+1)}{2} = \frac{n+1}{2} \in \Theta(n).\]
+<p>If present with probability \(p\), absent cost \(n\):</p>
+\[E[C] = p\cdot\frac{n+1}{2} + (1-p)\,n.\]</section>
+
+<section id="m1tasks" class="card"><h2>Module 1 — practice tasks and solutions</h2>
+<p class="muted">Try each task first. Hints and full solutions are hidden until you click.</p>
+<h3>Module 1 auto-graded quiz (10 questions)</h3>
+<div id="m1Quiz"></div>
+<button onclick="gradeQuiz('m1Quiz','m1Result')">Check Module 1 quiz</button> <span id="m1Result" class="feedback"></span>
+<div id="m1problemList" style="margin-top:18px"></div></section>
+
+<section id="sum1" class="card"><h2>Module 1 summary and cheat sheet</h2>
+<p><b>Method:</b> pick \(n\) → choose the basic operation → check whether cases differ → write one sum per loop → solve and classify.</p>
+<div class="formula">
+<b>Summation:</b>
+\[\sum_{i=l}^{u} 1 = u-l+1,\quad \sum_{i=l}^{u} c\,a_i = c\sum_{i=l}^{u} a_i,\quad \sum_{i=l}^{u}(a_i \pm b_i) = \sum a_i \pm \sum b_i\]
+\[\sum_{i=1}^{n} i = \frac{n(n+1)}{2},\quad \sum_{i=1}^{n} i^2 = \frac{n(n+1)(2n+1)}{6},\quad \sum_{i=0}^{n} r^i = \frac{r^{n+1}-1}{r-1}\]
+<b>Counts:</b>
+\[C_{\text{MaxElement}}(n) = n-1 \in \Theta(n)\]
+\[C_{\text{Selection}}(n) = \frac{n(n-1)}{2} \in \Theta(n^2)\]
+\[C_{\text{doubling}}(n) = \lceil\log_2 n\rceil \in \Theta(\log n)\]
+\[C_{avg}^{\text{search}}(n) = \frac{p(n+1)}{2} + (1-p)n\]
+</div></section>
 
 <div class="footer">Module 1 of the Algorithm Analysis e-textbook. <a href="module2.html">Continue to Module 2 →</a></div>
 </main></div>
 <script>
-const quiz1=[['A loop runs once for each of n items. Its count is usually:',['Θ(1)','Θ(n)','Θ(n²)'],1,'One iteration per item gives linear growth.'],['What is Σ(i=1 to n) 1?',['n','n²','log n'],0,'There are n terms, each equal to 1.'],['What is Σ(i=1 to n) i?',['n','n(n+1)/2','2ⁿ'],1,'This is the arithmetic-series formula.'],['Two full loops each run n times, one inside the other. Growth?',['Θ(n)','Θ(n log n)','Θ(n²)'],2,'The inner body runs n×n times.'],['A loop doubles i until i≥n. Iterations are:',['Θ(n)','Θ(log n)','Θ(n²)'],1,'After k iterations i=2ᵏ, so k≈log₂n.'],['The basic operation for maximum search is often:',['Comparing current value with maximum','Printing the array','Declaring n'],0,'The comparison determines whether the maximum changes.'],['For n=1, maximum search needs how many comparisons?',['0','1','n'],0,'The first item is already the maximum.'],['Worst-case uniqueness check compares pairs. Its growth is:',['Θ(log n)','Θ(n)','Θ(n²)'],2,'There are n(n−1)/2 pairs.'],['If a search target is guaranteed present uniformly among n positions, average comparisons are:',['(n+1)/2','n²','log₂n'],0,'The mean of 1,2,…,n is (n+1)/2.'],['Which is a common analysis mistake?',['State input size','Count the chosen operation','Ignore early termination'],2,'Early termination may change best-case counts.']];
+const quiz1=[
+['A loop runs once for each of n items. Its count is usually:',['Θ(1)','Θ(n)','Θ(n²)'],1,['One iteration per item gives linear growth.','Correct: one operation per item, n times → Θ(n).','Wrong: this would require a nested loop.']],
+['What is Σ(i=1 to n) 1?',['n','n²','log n'],0,['Correct: there are n terms, each equal to 1.','Wrong: that would be Σ i, not Σ 1.','Wrong: the number of terms is n, not log n.']],
+['What is Σ(i=1 to n) i?',['n','n(n+1)/2','2ⁿ'],1,['Wrong: this is Σ 1.','Correct: arithmetic-series formula.','Wrong: that would be a geometric sum.']],
+['Two full loops each run n times, one inside the other. Growth?',['Θ(n)','Θ(n log n)','Θ(n²)'],2,['Wrong: inner loop multiplies the work by n.','Wrong: that needs a halving pattern.','Correct: the inner body runs n×n times.']],
+['A loop doubles i until i≥n. Iterations are:',['Θ(n)','Θ(log n)','Θ(n²)'],1,['Wrong: that is for i←i+1.','Correct: after k iterations i=2ᵏ, so k≈log₂n.','Wrong: the loop is far cheaper.']],
+['The basic operation for maximum search is often:',['Comparing current value with maximum','Printing the array','Declaring n'],0,['Correct: the comparison decides whether the maximum changes.','Wrong: printing is irrelevant to analysis.','Wrong: declaration runs once.']],
+['For n=1, maximum search needs how many comparisons?',['0','1','n'],0,['Correct: the first item is already the maximum.','Wrong: no second item to compare against.','Wrong: n=1, but no comparison is needed.']],
+['Worst-case uniqueness check compares pairs. Its growth is:',['Θ(log n)','Θ(n)','Θ(n²)'],2,['Wrong: nothing halves here.','Wrong: all pairs, not just n.','Correct: there are n(n−1)/2 pairs.']],
+['If a search target is guaranteed present uniformly among n positions, average comparisons are:',['(n+1)/2','n²','log₂n'],0,['Correct: the mean of 1,2,…,n is (n+1)/2.','Wrong: that is far too large.','Wrong: that is for binary search.']],
+['Which is a common analysis mistake?',['State input size','Count the chosen operation','Ignore early termination'],2,['Wrong: this is the correct first step.','Wrong: this is the correct step.','Correct: early termination may change best-case counts.']]
+];
+
 const m1=[
-['A','An array-sum algorithm adds n values. Identify the input size, basic operation and count.','Use one addition per array element.','n; addition; C(n)=n ∈ Θ(n).','Input size is n. Choose addition as the basic operation. Each of n values is added once, so C(n)=n and the growth is Θ(n).'],
-['A','A loop compares each adjacent pair in an array of n elements. How many comparisons?','Count the gaps between adjacent elements.','n−1 comparisons, Θ(n).','The pairs are (A[1],A[2]) through (A[n−1],A[n]), giving n−1 comparisons.'],
-['A','Simplify C(n)=4n+12 using Θ notation.','Keep the dominant term.','Θ(n).','The linear term dominates the constant 12, and constant factors do not change Θ: C(n)∈Θ(n).'],
-['A','A loop performs exactly 7 operations for each of n items. Give the count and order.','Multiply work per item by item count.','C(n)=7n ∈ Θ(n).','There are n iterations and 7 operations per iteration, so C(n)=7n.'],
-['B','For i=1..n, the inner loop runs j=1..i. Find the total iterations.','Write 1+2+…+n.','n(n+1)/2 ∈ Θ(n²).','C(n)=Σᵢ₌₁ⁿ i=n(n+1)/2=(n²+n)/2. The quadratic term dominates.'],
-['B','An outer loop runs n times and an inner loop runs 3i times at outer iteration i. Find the count.','Sum 3i over i=1..n.','3n(n+1)/2 ∈ Θ(n²).','C(n)=Σ3i=3Σi=3n(n+1)/2.'],
-['B','A loop starts i=1 and doubles i until i≥n. Give the iteration count.','After k iterations, i=2ᵏ.','⌈log₂n⌉ iterations for n>1; Θ(log n).','The stopping condition is 2ᵏ≥n, so k≥log₂n. The least integer k is ⌈log₂n⌉.'],
-['B','A search checks all elements until it finds the target. State best and worst comparison counts.','Think of target at first position or absent/last.','Best 1; worst n.','If the first item matches, one comparison is made. If the target is last or absent, all n items are checked.'],
-['C','A target is guaranteed present uniformly in an array of n items. Find average comparisons.','Average the values 1 through n.','(n+1)/2 ∈ Θ(n).','Cavg=(1/n)Σᵢ₌₁ⁿ i=(1/n)n(n+1)/2=(n+1)/2.'],
-['C','For C(n)=Σᵢ₌₁ⁿ i², give the exact formula and order.','Use the sum-of-squares formula.','n(n+1)(2n+1)/6 ∈ Θ(n³).','The formula expands to (2n³+3n²+n)/6. The cubic term dominates.'],
-['M','A student says a loop from i=1 to n with one operation costs Θ(1), because each iteration is constant time. Find the mistake.','Separate cost per iteration from number of iterations.','Mistake: the number of iterations was ignored. Correct: Θ(n).','Each iteration costs Θ(1), but there are n iterations. Total work is n·Θ(1)=Θ(n).'],
-['M','A student claims the loop i=1; while i<n: i=2i has Θ(n) iterations. Find the mistake.','Track i after k iterations.','Mistake: assumes i increases by one. Correct: Θ(log n).','The values are 1,2,4,8,…,2ᵏ. It reaches n after about log₂n doublings.'],
-['E','Use an operation counter to verify the maximum-search comparison count for n=10,100,1000. State the formula and conclusion.','Count each comparison in the loop.','Expected counts: 9, 99, 999; formula n−1; Θ(n).','For a non-empty array the first item initializes the maximum. Each of the remaining n−1 items is compared once. The counter should report n−1.']];
-function renderQuiz(id,qs){const el=document.getElementById(id);el.innerHTML=qs.map((q,i)=>`<div class="quiz-q" data-correct="${q[2]}" data-explain="${q[3].replaceAll('"','&quot;')}"><b>${i+1}. ${q[0]}</b>${q[1].map((o,j)=>`<label><input type="radio" name="${id}_${i}" value="${j}"> ${String.fromCharCode(65+j)}. ${o}</label>`).join('')}<div class="feedback"></div></div>`).join('')}
-function gradeQuiz(id,resultId){let score=0;const qs=[...document.querySelectorAll(`#${id} .quiz-q`)];qs.forEach(q=>{const chosen=q.querySelector('input:checked');const f=q.querySelector('.feedback');if(chosen&&Number(chosen.value)===Number(q.dataset.correct)){score++;f.innerHTML='<span class="good">Correct.</span> '+q.dataset.explain}else{f.innerHTML='<span class="bad">Not correct.</span> '+q.dataset.explain}});document.getElementById(resultId).textContent=`Score: ${score}/${qs.length}`}
-function renderProblems(id,problems){document.getElementById(id).innerHTML=problems.map((p,i)=>`<article class="mini" style="margin:12px 0"><div><span class="tag">${p[0]==='M'?'Find the mistake':p[0]==='E'?'Empirical verification':'Level '+p[0]}</span></div><h3>Task ${i+1}. ${p[1]}</h3><p class="muted"><b>Hint:</b> ${p[2]}</p><p><b>Answer:</b> ${p[3]}</p><button class="secondary" onclick="this.nextElementSibling.classList.toggle('hidden');this.textContent=this.nextElementSibling.classList.contains('hidden')?'Show step-by-step solution':'Hide solution'">Show step-by-step solution</button><div class="answer hidden"><p>${p[4]}</p></div></article>`).join('')}
-renderQuiz('m1Quiz',quiz1);renderProblems('m1problemList',m1);
-</script></body></html>
+['A','An array-sum algorithm adds n values. Identify size, basic operation, count.','Use one addition per element.','\(n\); addition; \(C(n)=n \in \Theta(n)\).','Size is \(n\). Choose addition. Each of \(n\) values is added once: \(C(n)=\sum_{i=0}^{n-1}1=n\in\Theta(n)\).'],
+['A','A loop compares each adjacent pair in an array of n elements. How many comparisons?','Count the gaps.','\(n-1\) comparisons, \(\Theta(n)\).','Pairs are \((A[0],A[1]),\dots,(A[n-2],A[n-1])\): \(n-1\) comparisons in total.'],
+['A','Simplify \(C(n)=4n+12\) using Θ.','Keep the dominant term.','\(\Theta(n)\).','\(4n+12 = 4(n+3)\), so the linear term dominates. Constants do not change \(\Theta\): \(C(n)\in\Theta(n)\).'],
+['A','A loop performs exactly 7 operations for each of n items. Give count and order.','Multiply per-item work by item count.','\(C(n)=7n \in \Theta(n)\).','\(n\) iterations × 7 operations = \(7n\). The constant 7 does not affect the order.'],
+['B','For i=1..n, the inner loop runs j=1..i. Find total iterations.','Write 1+2+…+n.','\(\frac{n(n+1)}{2} \in \Theta(n^2)\).','\[C(n)=\sum_{i=1}^{n} i = \frac{n(n+1)}{2} = \frac{n^2+n}{2}.\] The quadratic term dominates.'],
+['B','Outer loop n times, inner loop 3i times at outer iteration i. Find count.','Sum 3i.','\(\frac{3n(n+1)}{2} \in \Theta(n^2)\).','\[C(n)=\sum_{i=1}^{n}3i = 3\cdot\frac{n(n+1)}{2}.\]'],
+['B','Loop starts i=1, doubles i until i≥n. Give iteration count.','After k iterations, i=2ᵏ.','\(\lceil\log_2 n\rceil\) iterations; \(\Theta(\log n)\).','Stopping condition \(2^k\ge n\) gives \(k\ge\log_2 n\); smallest integer \(k=\lceil\log_2 n\rceil\).'],
+['B','Search checks all elements until target found. Best and worst comparison counts?','Target first, or absent/last.','Best \(1\), worst \(n\).','If \(A[0]\) matches, one comparison. If target is last or absent, all \(n\) items are checked.'],
+['C','Target guaranteed present uniformly in n positions. Average comparisons?','Average 1 through n.','\(\frac{n+1}{2} \in \Theta(n)\).','\[C_{avg}=\frac{1}{n}\sum_{i=1}^{n} i=\frac{1}{n}\cdot\frac{n(n+1)}{2}=\frac{n+1}{2}.\]'],
+['C','Give the exact formula and order of \(\sum_{i=1}^{n} i^2\).','Use the sum-of-squares formula.','\(\frac{n(n+1)(2n+1)}{6} \in \Theta(n^3)\).','Expands to \((2n^3+3n^2+n)/6\). The cubic term dominates, so \(\Theta(n^3)\).'],
+['C','Evaluate \(C(n)=\sum_{i=1}^{n}(3i^2+2i)\). Give exact formula and order.','Split the sum, use \(\sum i^2\) and \(\sum i\).','\(n(n+1)(n+2)/2 \in \Theta(n^3)\).','\[C(n)=3\cdot\frac{n(n+1)(2n+1)}{6}+2\cdot\frac{n(n+1)}{2}=\frac{n(n+1)(n+2)}{2}.\] Cubic term dominates.'],
+['M','A student says a loop from i=1 to n with one operation costs Θ(1), because each iteration is constant time. Find the mistake.','Separate per-iteration cost from iteration count.','Mistake: the number of iterations was ignored. Correct: \(\Theta(n)\).','Each iteration costs \(\Theta(1)\), but there are \(n\) iterations. Total is \(n\cdot\Theta(1)=\Theta(n)\).'],
+['M','A student claims i=1; while i<n: i=2i has Θ(n) iterations. Find the mistake.','Track i after k iterations.','Mistake: assumes i increases by one. Correct: \(\Theta(\log n)\).','The values are \(1,2,4,8,\dots,2^k\). It reaches \(n\) after about \(\log_2 n\) doublings.'],
+['E','Use an operation counter to verify the comparison count of pairwise uniqueness for n=10,100,1000. State formula and conclusion.','Count each \(A[i]=A[j]\).','Counts: \(45, 4950, 499500\); formula \(\frac{n(n-1)}{2}\); \(\Theta(n^2)\).','For a non-empty array of distinct values, every pair is compared once. Total is \(\sum_{i=0}^{n-2}(n-1-i)=\frac{n(n-1)}{2}\). The counter matches the formula.']
+];
+
+function renderQuiz(id,qs){
+  const el=document.getElementById(id);
+  el.innerHTML=qs.map((q,i)=>`<div class="quiz-q" data-correct="${q[2]}" data-i="${i}">
+    <b>${i+1}. ${q[0]}</b>
+    ${q[1].map((o,j)=>`<label><input type="radio" name="${id}_${i}" value="${j}"> ${String.fromCharCode(65+j)}. ${o}</label>`).join('')}
+    <div class="feedback"></div>
+  </div>`).join('');
+}
+
+function gradeQuiz(id,resultId){
+  let score=0, answered=0;
+  const qs=[...document.querySelectorAll('#'+id+' .quiz-q')];
+  qs.forEach(q=>{
+    const chosen=q.querySelector('input:checked');
+    const f=q.querySelector('.feedback');
+    if(!chosen){
+      f.innerHTML='<span class="muted">Not answered yet.</span>';
+      return;
+    }
+    answered++;
+    const correct=Number(q.dataset.correct);
+    const i=Number(q.dataset.i);
+    q.querySelectorAll('label').forEach((lab,k)=>{
+      const old=lab.nextElementSibling;
+      if(old&&old.classList.contains('feedback'))old.remove();
+      const mark=k===correct?'<span class="good">✓</span>':'<span class="bad">✗</span>';
+      lab.insertAdjacentHTML('afterend',`<div class="feedback">${mark} ${quiz1[i][3][k]}</div>`);
+    });
+    if(Number(chosen.value)===correct)score++;
+  });
+  document.getElementById(resultId).textContent=`Score: ${score}/${answered} answered (${qs.length} total)`;
+}
+
+function renderProblems(id,problems){
+  document.getElementById(id).innerHTML=problems.map((p,i)=>`<article class="mini" style="margin:12px 0">
+    <div><span class="tag">${p[0]==='M'?'Find the mistake':p[0]==='E'?'Empirical verification':'Level '+p[0]}</span></div>
+    <h3>Task ${i+1}. ${p[1]}</h3>
+    <details style="margin-top:8px"><summary style="cursor:pointer;color:var(--accent);font-weight:700">Show hint</summary><p>${p[2]}</p></details>
+    <details style="margin-top:6px"><summary style="cursor:pointer;color:var(--accent);font-weight:700">Show answer</summary><p>${p[3]}</p></details>
+    <details style="margin-top:6px"><summary style="cursor:pointer;color:var(--accent);font-weight:700">Show step-by-step solution</summary><p>${p[4]}</p></details>
+  </article>`).join('');
+}
+
+renderQuiz('m1Quiz',quiz1);
+renderProblems('m1problemList',m1);
+</script>
+</body></html>

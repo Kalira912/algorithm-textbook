@@ -11,42 +11,54 @@ window.MathJax = {
 };
 </script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-chtml.js" async></script>
-</head><body><div class="layout"><aside class="sidebar"><div class="brand">Algorithm Analysis</div><p class="subbrand">Experiment</p><nav class="nav"><a href="index.html">← Home</a><a href="module1.html">Module 1</a><a href="module2.html">Module 2</a><a href="experiment.html" class="active">Experiment</a><a href="#experiment">Overview</a><a href="#code">Python code</a></nav></aside><main class="main">
+</head><body><div class="layout"><aside class="sidebar"><div class="brand">Algorithm Analysis</div><p class="subbrand">Experiment</p><nav class="nav"><a href="index.html">← Home</a><a href="module1.html">Module 1</a><a href="module2.html">Module 2</a><a href="experiment.html" class="active">Experiment</a><a href="#exp1">Module 1: UniqueElements</a><a href="#exp2">Module 2: Hanoi</a></nav></aside><main class="main">
 
-<section id="experiment" class="card"><h2>Empirical verification with Python</h2><p>This experiment counts comparisons made by a linear maximum-finding algorithm. The theoretical count is \(n-1\). Run the code in Python or Google Colab and compare measured counts with the formula.</p><h3 id="code">Python code</h3><pre>def max_with_counter(values):
-    if not values:
-        raise ValueError("Input must not be empty")
-    current_max = values[0]
-    comparisons = 0
-    for value in values[1:]:
-        comparisons += 1
-        if value &gt; current_max:
-            current_max = value
-    return current_max, comparisons
+<section class="card"><h2>Empirical verification</h2>
+<p>Two experiments. Each counts the basic operation and compares with the theoretical formula.</p></section>
 
-for n in [10, 100, 1000, 5000]:
-    data = list(range(n))
-    result, measured = max_with_counter(data)
-    theoretical = n - 1
-    print(f"n={n:4d}, max={result:4d}, measured={measured:4d}, formula={theoretical:4d}")</pre><p><b>Expected interpretation:</b> measured comparisons equal \(n-1\) for each non-empty input. This verifies the operation-count formula for this implementation. It does not measure wall-clock time, which is affected by hardware, interpreter overhead, and other factors.</p><button class="secondary" onclick="downloadExperiment()">Download Python file</button></section>
-
-<section class="card"><h2>Second experiment: selection sort</h2><pre>def selection_sort_count(a):
-    n, count = len(a), 0
+<section id="exp1" class="card"><h2>Experiment 1 (Module 1): UniqueElements</h2>
+<p>For an array of \(n\) distinct values, the algorithm compares every pair. Theoretical count:</p>
+\[C(n)=\sum_{i=0}^{n-2}\sum_{j=i+1}^{n-1}1=\frac{n(n-1)}{2}\in\Theta(n^2).\]
+<pre>def unique_elements_count(a):
+    n = len(a)
+    count = 0
     for i in range(n - 1):
-        m = i
         for j in range(i + 1, n):
             count += 1
-            if a[j] &lt; a[m]: m = j
-        a[i], a[m] = a[m], a[i]
-    return count
+            if a[i] == a[j]:
+                return count, False
+    return count, True
 
-for n in (10, 100, 1000):
-    assert selection_sort_count(list(range(n, 0, -1))) == n * (n - 1) // 2
-print("formula confirmed")</pre><p><b>Expected:</b> the comparison count equals \(n(n-1)/2\) exactly for every \(n\) — the formula matches the code.</p><button class="secondary" onclick="downloadSelection()">Download Python file</button></section>
+for n in [10, 50, 100, 500, 1000]:
+    data = list(range(n))          # all distinct
+    measured, unique = unique_elements_count(data)
+    formula = n * (n - 1) // 2
+    print(f"n={n:5d}  measured={measured:8d}  formula={formula:8d}  match={measured==formula}")</pre>
+<p><b>Expected:</b> measured equals \(n(n-1)/2\) for every \(n\).</p>
+<button class="secondary" onclick="downloadUnique()">Download Python file</button></section>
+
+<section id="exp2" class="card"><h2>Experiment 2 (Module 2): Tower of Hanoi</h2>
+<p>The recurrence is \(T(n)=2T(n-1)+1\) with \(T(1)=1\). Theoretical count:</p>
+\[T(n)=2^n-1\in\Theta(2^n).\]
+<pre>def hanoi_moves(n, counter):
+    if n == 1:
+        counter[0] += 1
+        return
+    hanoi_moves(n - 1, counter)
+    counter[0] += 1
+    hanoi_moves(n - 1, counter)
+
+for n in range(1, 16):
+    c = [0]
+    hanoi_moves(n, c)
+    formula = 2**n - 1
+    print(f"n={n:2d}  measured={c[0]:6d}  formula={formula:6d}  match={c[0]==formula}")</pre>
+<p><b>Expected:</b> measured equals \(2^n-1\) for every \(n\). The counts double roughly at each step, confirming exponential growth.</p>
+<button class="secondary" onclick="downloadHanoi()">Download Python file</button></section>
 
 <div class="footer">Empirical verification. <a href="index.html">Back to Home →</a></div>
 </main></div>
 <script>
-function downloadExperiment(){const code=`def max_with_counter(values):\n    if not values:\n        raise ValueError("Input must not be empty")\n    current_max = values[0]\n    comparisons = 0\n    for value in values[1:]:\n        comparisons += 1\n        if value > current_max:\n            current_max = value\n    return current_max, comparisons\n\nfor n in [10, 100, 1000, 5000]:\n    data = list(range(n))\n    result, measured = max_with_counter(data)\n    theoretical = n - 1\n    print(f"n={n:4d}, max={result:4d}, measured={measured:4d}, formula={theoretical:4d}")\n`;const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([code],{type:'text/x-python'}));a.download='operation_count_experiment.py';a.click();URL.revokeObjectURL(a.href)}
-function downloadSelection(){const code=`def selection_sort_count(a):\n    n, count = len(a), 0\n    for i in range(n - 1):\n        m = i\n        for j in range(i + 1, n):\n            count += 1\n            if a[j] < a[m]: m = j\n        a[i], a[m] = a[m], a[i]\n    return count\n\nfor n in (10, 100, 1000):\n    assert selection_sort_count(list(range(n, 0, -1))) == n * (n - 1) // 2\nprint("formula confirmed")\n`;const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([code],{type:'text/x-python'}));a.download='selection_sort_experiment.py';a.click();URL.revokeObjectURL(a.href)}
+function downloadUnique(){const code=`def unique_elements_count(a):\n    n = len(a)\n    count = 0\n    for i in range(n - 1):\n        for j in range(i + 1, n):\n            count += 1\n            if a[i] == a[j]:\n                return count, False\n    return count, True\n\nfor n in [10, 50, 100, 500, 1000]:\n    data = list(range(n))\n    measured, unique = unique_elements_count(data)\n    formula = n * (n - 1) // 2\n    print(f"n={n:5d}  measured={measured:8d}  formula={formula:8d}  match={measured==formula}")\n`;const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([code],{type:'text/x-python'}));a.download='unique_elements_experiment.py';a.click();URL.revokeObjectURL(a.href)}
+function downloadHanoi(){const code=`def hanoi_moves(n, counter):\n    if n == 1:\n        counter[0] += 1\n        return\n    hanoi_moves(n - 1, counter)\n    counter[0] += 1\n    hanoi_moves(n - 1, counter)\n\nfor n in range(1, 16):\n    c = [0]\n    hanoi_moves(n, c)\n    formula = 2**n - 1\n    print(f"n={n:2d}  measured={c[0]:6d}  formula={formula:6d}  match={c[0]==formula}")\n`;const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([code],{type:'text/x-python'}));a.download='hanoi_experiment.py';a.click();URL.revokeObjectURL(a.href)}
 </script></body></html>
