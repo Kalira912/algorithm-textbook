@@ -169,20 +169,20 @@ const quiz2=[
 ];
 
 const m2=[
-['A','Solve \(T(n)=T(n-1)+1,\ T(1)=1\).','Expand a few times.','\(T(n)=n\in\Theta(n)\).','\[T(n)=T(n-1)+1=T(n-2)+2=\dots=T(1)+(n-1)=n.\]'],
-['A','Recursive function halves \(n\) until \(n=1\), constant work per call. Order?','Count halvings.','\(\Theta(\log n)\).','After \(k\) halvings \(n/2^k=1\), so \(k=\log_2 n\).'],
-['A','Factorial: one recursive call on \(n-1\), one multiplication per non-base call. Time and stack?','\(n\) levels.','Time \(\Theta(n)\), stack \(\Theta(n)\).','\(M(n)=M(n-1)+1\) → \(n-1\) multiplications. Call depth \(n\).'],
+['A',String.raw`Solve \(T(n)=T(n-1)+1,\ T(1)=1\).`,'Expand a few times.',String.raw`\(T(n)=n\in\Theta(n)\).`,String.raw`\[T(n)=T(n-1)+1=T(n-2)+2=\dots=T(1)+(n-1)=n.\]`],
+['A',String.raw`Recursive function halves \(n\) until \(n=1\), constant work per call. Order?`,'Count halvings.',String.raw`\(\Theta(\log n)\).`,String.raw`After \(k\) halvings \(n/2^k=1\), so \(k=\log_2 n\).`],
+['A',String.raw`Factorial: one recursive call on \(n-1\), one multiplication per non-base call. Time and stack?`,String.raw`\(n\) levels.`,String.raw`Time \(\Theta(n)\), stack \(\Theta(n)\).`,String.raw`\(M(n)=M(n-1)+1\) → \(n-1\) multiplications. Call depth \(n\).`],
 ['A','What base condition is appropriate for factorial?','Smallest valid input.','factorial(0)=1 (or factorial(1)=1).','The base case stops recursion and returns the multiplicative identity.'],
-['B','Solve \(T(n)=T(n-1)+3,\ T(1)=2\).','Each step adds 3.','\(T(n)=3n-1\in\Theta(n)\).','\[T(n)=T(1)+3(n-1)=2+3n-3=3n-1.\]'],
-['B','Solve \(T(n)=T(n/2)+2,\ T(1)=1\) for \(n=2^k\).','\(k\) halvings.','\(T(n)=1+2\log_2 n\in\Theta(\log n)\).','For \(n=2^k\): \(T(n)=T(1)+2k=1+2\log_2 n\).'],
-['B','Solve \(T(n)=2T(n/2)+n,\ T(1)=1,\ n=2^k\).','Each tree level contributes \(n\).','\(\Theta(n\log n)\).','\[T(n)=2T(n/2)+n=4T(n/4)+2n=\dots=2^kT(1)+kn=n\log_2 n.\]'],
-['B','Hanoi: \(T(n)=2T(n-1)+1,\ T(0)=0\). Compute \(T(3)\).','Use \(T(1)=1\), then \(T(2)\), then \(T(3)\).','\(T(3)=7\).','\(T(0)=0\); \(T(1)=1\); \(T(2)=2\cdot1+1=3\); \(T(3)=2\cdot3+1=7\).'],
-['C','Prove by induction \(T(n)=n-1\) for \(T(1)=0\), \(T(n)=T(n-1)+1\).','Base case + induction step.','\(T(n)=n-1\).','Base \(n=1\): \(T(1)=0=1-1\). Assume \(T(k)=k-1\). Then \(T(k+1)=T(k)+1=(k-1)+1=k=(k+1)-1\). True for all \(n\ge1\).'],
-['C','Explain why memoized Fibonacci takes \(\Theta(n)\) time.','How many distinct arguments?','\(\Theta(n)\) time; \(\Theta(n)\) stored.','\(F(0)\) through \(F(n)\) are each computed once. Constant arithmetic per value → \(\Theta(n)\) total.'],
-['C','Solve \(T(n)=T(n-1)+2^n,\ T(0)=1\).','Geometric sum.','\(T(n)=2^{n+1}-1\in\Theta(2^n)\).','\[T(n)=1+\sum_{i=1}^{n}2^i=1+(2^{n+1}-2)=2^{n+1}-1.\]'],
-['M','Student writes \(T(n)=T(n-1)+1\) but forgets \(T(1)\). What is missing?','Recurrence needs a stopping value.','Missing base/initial condition.','Without it the recurrence has no unique solution. Add \(T(1)=0\) (or appropriate base).'],
-['M','Student claims naive Fibonacci is \(\Theta(n)\). Mistake?','Input size ≠ operation count.','Repeated subproblems cause exponential growth.','\(F(n-1)\) and \(F(n-2)\) overlap and recompute values. Naive is \(\Theta(\varphi^n)\); memoization reduces to \(\Theta(n)\).'],
-['E','Write a counter for factorial and verify multiplications for \(n=5,10\).','Count multiplication only when \(n>1\).','Expected: 4 and 9 multiplications; formula \(n-1\); \(\Theta(n)\).','Base \(n\le1\) does no multiplication. Levels \(n,n-1,\dots,2\) each perform one → \(n-1\).']
+['B',String.raw`Solve \(T(n)=T(n-1)+3,\ T(1)=2\).`,'Each step adds 3.',String.raw`\(T(n)=3n-1\in\Theta(n)\).`,String.raw`\[T(n)=T(1)+3(n-1)=2+3n-3=3n-1.\]`],
+['B',String.raw`Solve \(T(n)=T(n/2)+2,\ T(1)=1\) for \(n=2^k\).`,String.raw`\(k\) halvings.`,String.raw`\(T(n)=1+2\log_2 n\in\Theta(\log n)\).`,String.raw`For \(n=2^k\): \(T(n)=T(1)+2k=1+2\log_2 n\).`],
+['B',String.raw`Solve \(T(n)=2T(n/2)+n,\ T(1)=1,\ n=2^k\).`,String.raw`Each tree level contributes \(n\).`,String.raw`\(\Theta(n\log n)\).`,String.raw`\[T(n)=2T(n/2)+n=4T(n/4)+2n=\dots=2^kT(1)+kn=n\log_2 n.\]`],
+['B',String.raw`Hanoi: \(T(n)=2T(n-1)+1,\ T(0)=0\). Compute \(T(3)\).`,String.raw`Use \(T(1)=1\), then \(T(2)\), then \(T(3)\).`,String.raw`\(T(3)=7\).`,String.raw`\(T(0)=0\); \(T(1)=1\); \(T(2)=2\cdot1+1=3\); \(T(3)=2\cdot3+1=7\).`],
+['C',String.raw`Prove by induction \(T(n)=n-1\) for \(T(1)=0\), \(T(n)=T(n-1)+1\).`,'Base case + induction step.',String.raw`\(T(n)=n-1\).`,String.raw`Base \(n=1\): \(T(1)=0=1-1\). Assume \(T(k)=k-1\). Then \(T(k+1)=T(k)+1=(k-1)+1=k=(k+1)-1\). True for all \(n\ge1\).`],
+['C',String.raw`Explain why memoized Fibonacci takes \(\Theta(n)\) time.`,'How many distinct arguments?',String.raw`\(\Theta(n)\) time; \(\Theta(n)\) stored.`,String.raw`\(F(0)\) through \(F(n)\) are each computed once. Constant arithmetic per value → \(\Theta(n)\) total.`],
+['C',String.raw`Solve \(T(n)=T(n-1)+2^n,\ T(0)=1\).`,'Geometric sum.',String.raw`\(T(n)=2^{n+1}-1\in\Theta(2^n)\).`,String.raw`\[T(n)=1+\sum_{i=1}^{n}2^i=1+(2^{n+1}-2)=2^{n+1}-1.\]`],
+['M',String.raw`Student writes \(T(n)=T(n-1)+1\) but forgets \(T(1)\). What is missing?`,'Recurrence needs a stopping value.','Missing base/initial condition.',String.raw`Without it the recurrence has no unique solution. Add \(T(1)=0\) (or appropriate base).`],
+['M',String.raw`Student claims naive Fibonacci is \(\Theta(n)\). Mistake?`,String.raw`Input size ≠ operation count.`,'Repeated subproblems cause exponential growth.',String.raw`\(F(n-1)\) and \(F(n-2)\) overlap and recompute values. Naive is \(\Theta(\varphi^n)\); memoization reduces to \(\Theta(n)\).`],
+['E',String.raw`Write a counter for factorial and verify multiplications for \(n=5,10\).`,String.raw`Count multiplication only when \(n>1\).`,String.raw`Expected: 4 and 9 multiplications; formula \(n-1\); \(\Theta(n)\).`,String.raw`Base \(n\le1\) does no multiplication. Levels \(n,n-1,\dots,2\) each perform one → \(n-1\).`]
 ];
 
 function renderQuiz(id,qs){
@@ -227,6 +227,10 @@ function renderProblems(id,problems){
     <details style="margin-top:6px"><summary style="cursor:pointer;color:var(--accent);font-weight:700">Show step-by-step solution</summary><p>${p[4]}</p></details>
   </article>`).join('');
 }
+
+renderQuiz('m2Quiz',quiz2);
+renderProblems('m2problemList',m2);
+</script></body></html>
 
 renderQuiz('m2Quiz',quiz2);
 renderProblems('m2problemList',m2);

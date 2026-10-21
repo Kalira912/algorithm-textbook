@@ -151,20 +151,20 @@ const quiz1=[
 ];
 
 const m1=[
-['A','An array-sum algorithm adds n values. Identify size, basic operation, count.','Use one addition per element.','\(n\); addition; \(C(n)=n \in \Theta(n)\).','Size is \(n\). Choose addition. Each of \(n\) values is added once: \(C(n)=\sum_{i=0}^{n-1}1=n\in\Theta(n)\).'],
-['A','A loop compares each adjacent pair in an array of n elements. How many comparisons?','Count the gaps.','\(n-1\) comparisons, \(\Theta(n)\).','Pairs are \((A[0],A[1]),\dots,(A[n-2],A[n-1])\): \(n-1\) comparisons in total.'],
-['A','Simplify \(C(n)=4n+12\) using Θ.','Keep the dominant term.','\(\Theta(n)\).','\(4n+12 = 4(n+3)\), so the linear term dominates. Constants do not change \(\Theta\): \(C(n)\in\Theta(n)\).'],
-['A','A loop performs exactly 7 operations for each of n items. Give count and order.','Multiply per-item work by item count.','\(C(n)=7n \in \Theta(n)\).','\(n\) iterations × 7 operations = \(7n\). The constant 7 does not affect the order.'],
-['B','For i=1..n, the inner loop runs j=1..i. Find total iterations.','Write 1+2+…+n.','\(\frac{n(n+1)}{2} \in \Theta(n^2)\).','\[C(n)=\sum_{i=1}^{n} i = \frac{n(n+1)}{2} = \frac{n^2+n}{2}.\] The quadratic term dominates.'],
-['B','Outer loop n times, inner loop 3i times at outer iteration i. Find count.','Sum 3i.','\(\frac{3n(n+1)}{2} \in \Theta(n^2)\).','\[C(n)=\sum_{i=1}^{n}3i = 3\cdot\frac{n(n+1)}{2}.\]'],
-['B','Loop starts i=1, doubles i until i≥n. Give iteration count.','After k iterations, i=2ᵏ.','\(\lceil\log_2 n\rceil\) iterations; \(\Theta(\log n)\).','Stopping condition \(2^k\ge n\) gives \(k\ge\log_2 n\); smallest integer \(k=\lceil\log_2 n\rceil\).'],
-['B','Search checks all elements until target found. Best and worst comparison counts?','Target first, or absent/last.','Best \(1\), worst \(n\).','If \(A[0]\) matches, one comparison. If target is last or absent, all \(n\) items are checked.'],
-['C','Target guaranteed present uniformly in n positions. Average comparisons?','Average 1 through n.','\(\frac{n+1}{2} \in \Theta(n)\).','\[C_{avg}=\frac{1}{n}\sum_{i=1}^{n} i=\frac{1}{n}\cdot\frac{n(n+1)}{2}=\frac{n+1}{2}.\]'],
-['C','Give the exact formula and order of \(\sum_{i=1}^{n} i^2\).','Use the sum-of-squares formula.','\(\frac{n(n+1)(2n+1)}{6} \in \Theta(n^3)\).','Expands to \((2n^3+3n^2+n)/6\). The cubic term dominates, so \(\Theta(n^3)\).'],
-['C','Evaluate \(C(n)=\sum_{i=1}^{n}(3i^2+2i)\). Give exact formula and order.','Split the sum, use \(\sum i^2\) and \(\sum i\).','\(n(n+1)(n+2)/2 \in \Theta(n^3)\).','\[C(n)=3\cdot\frac{n(n+1)(2n+1)}{6}+2\cdot\frac{n(n+1)}{2}=\frac{n(n+1)(n+2)}{2}.\] Cubic term dominates.'],
-['M','A student says a loop from i=1 to n with one operation costs Θ(1), because each iteration is constant time. Find the mistake.','Separate per-iteration cost from iteration count.','Mistake: the number of iterations was ignored. Correct: \(\Theta(n)\).','Each iteration costs \(\Theta(1)\), but there are \(n\) iterations. Total is \(n\cdot\Theta(1)=\Theta(n)\).'],
-['M','A student claims i=1; while i<n: i=2i has Θ(n) iterations. Find the mistake.','Track i after k iterations.','Mistake: assumes i increases by one. Correct: \(\Theta(\log n)\).','The values are \(1,2,4,8,\dots,2^k\). It reaches \(n\) after about \(\log_2 n\) doublings.'],
-['E','Use an operation counter to verify the comparison count of pairwise uniqueness for n=10,100,1000. State formula and conclusion.','Count each \(A[i]=A[j]\).','Counts: \(45, 4950, 499500\); formula \(\frac{n(n-1)}{2}\); \(\Theta(n^2)\).','For a non-empty array of distinct values, every pair is compared once. Total is \(\sum_{i=0}^{n-2}(n-1-i)=\frac{n(n-1)}{2}\). The counter matches the formula.']
+['A','An array-sum algorithm adds n values. Identify size, basic operation, count.','Use one addition per element.',String.raw`\(n\); addition; \(C(n)=n \in \Theta(n)\).`,String.raw`Size is \(n\). Choose addition. Each of \(n\) values is added once: \(C(n)=\sum_{i=0}^{n-1}1=n\in\Theta(n)\).`],
+['A','A loop compares each adjacent pair in an array of n elements. How many comparisons?','Count the gaps.',String.raw`\(n-1\) comparisons, \(\Theta(n)\).`,String.raw`Pairs are \((A[0],A[1]),\dots,(A[n-2],A[n-1])\): \(n-1\) comparisons in total.`],
+['A',String.raw`Simplify \(C(n)=4n+12\) using Θ.`,'Keep the dominant term.',String.raw`\(\Theta(n)\).`,String.raw`\(4n+12 = 4(n+3)\), so the linear term dominates. Constants do not change \(\Theta\): \(C(n)\in\Theta(n)\).`],
+['A','A loop performs exactly 7 operations for each of n items. Give count and order.','Multiply per-item work by item count.',String.raw`\(C(n)=7n \in \Theta(n)\).`,String.raw`\(n\) iterations × 7 operations = \(7n\). The constant 7 does not affect the order.`],
+['B','For i=1..n, the inner loop runs j=1..i. Find total iterations.','Write 1+2+…+n.',String.raw`\(\frac{n(n+1)}{2} \in \Theta(n^2)\).`,String.raw`\[C(n)=\sum_{i=1}^{n} i = \frac{n(n+1)}{2} = \frac{n^2+n}{2}.\] The quadratic term dominates.`],
+['B','Outer loop n times, inner loop 3i times at outer iteration i. Find count.','Sum 3i.',String.raw`\(\frac{3n(n+1)}{2} \in \Theta(n^2)\).`,String.raw`\[C(n)=\sum_{i=1}^{n}3i = 3\cdot\frac{n(n+1)}{2}.\]`],
+['B','Loop starts i=1, doubles i until i≥n. Give iteration count.','After k iterations, i=2ᵏ.',String.raw`\(\lceil\log_2 n\rceil\) iterations; \(\Theta(\log n)\).`,String.raw`Stopping condition \(2^k\ge n\) gives \(k\ge\log_2 n\); smallest integer \(k=\lceil\log_2 n\rceil\).`],
+['B','Search checks all elements until target found. Best and worst comparison counts?','Target first, or absent/last.',String.raw`Best \(1\), worst \(n\).`,String.raw`If \(A[0]\) matches, one comparison. If target is last or absent, all \(n\) items are checked.`],
+['C','Target guaranteed present uniformly in n positions. Average comparisons?','Average 1 through n.',String.raw`\(\frac{n+1}{2} \in \Theta(n)\).`,String.raw`\[C_{avg}=\frac{1}{n}\sum_{i=1}^{n} i=\frac{1}{n}\cdot\frac{n(n+1)}{2}=\frac{n+1}{2}.\]`],
+['C',String.raw`Give the exact formula and order of \(\sum_{i=1}^{n} i^2\).`,'Use the sum-of-squares formula.',String.raw`\(\frac{n(n+1)(2n+1)}{6} \in \Theta(n^3)\).`,String.raw`Expands to \((2n^3+3n^2+n)/6\). The cubic term dominates, so \(\Theta(n^3)\).`],
+['C',String.raw`Evaluate \(C(n)=\sum_{i=1}^{n}(3i^2+2i)\). Give exact formula and order.`,String.raw`Split the sum, use \(\sum i^2\) and \(\sum i\).`,String.raw`\(n(n+1)(n+2)/2 \in \Theta(n^3)\).`,String.raw`\[C(n)=3\cdot\frac{n(n+1)(2n+1)}{6}+2\cdot\frac{n(n+1)}{2}=\frac{n(n+1)(n+2)}{2}.\] Cubic term dominates.`],
+['M','A student says a loop from i=1 to n with one operation costs Θ(1), because each iteration is constant time. Find the mistake.','Separate per-iteration cost from iteration count.',String.raw`Mistake: the number of iterations was ignored. Correct: \(\Theta(n)\).`,String.raw`Each iteration costs \(\Theta(1)\), but there are \(n\) iterations. Total is \(n\cdot\Theta(1)=\Theta(n)\).`],
+['M','A student claims i=1; while i<n: i=2i has Θ(n) iterations. Find the mistake.','Track i after k iterations.',String.raw`Mistake: assumes i increases by one. Correct: \(\Theta(\log n)\).`,String.raw`The values are \(1,2,4,8,\dots,2^k\). It reaches \(n\) after about \(\log_2 n\) doublings.`],
+['E',String.raw`Use an operation counter to verify the comparison count of pairwise uniqueness for n=10,100,1000. State formula and conclusion.`,String.raw`Count each \(A[i]=A[j]\).`,String.raw`Counts: \(45, 4950, 499500\); formula \(\frac{n(n-1)}{2}\); \(\Theta(n^2)\).`,String.raw`For a non-empty array of distinct values, every pair is compared once. Total is \(\sum_{i=0}^{n-2}(n-1-i)=\frac{n(n-1)}{2}\). The counter matches the formula.`]
 ];
 
 function renderQuiz(id,qs){
@@ -212,5 +212,4 @@ function renderProblems(id,problems){
 
 renderQuiz('m1Quiz',quiz1);
 renderProblems('m1problemList',m1);
-</script>
-</body></html>
+</script></body></html>
